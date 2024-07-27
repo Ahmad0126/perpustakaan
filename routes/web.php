@@ -15,5 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Home::class, 'index'])->name('base');
-Route::get('/user', [User::class, 'index'])->name('user');
+Route::middleware('guest')->group(function(){
+    Route::get('/login', function(){ return view('login'); });
+    Route::post('/login', [Home::class, 'login'])->name('login');
+});
+
+Route::middleware('auth')->group(function(){
+    Route::get('/', [Home::class, 'index'])->name('base');
+    Route::get('/logout', [Home::class, 'logout'])->name('logout');
+    Route::get('/user', [User::class, 'index'])->name('user');
+    Route::post('/user/tambah', [User::class, 'tambah'])->name('user_tambah');
+    Route::post('/user/edit', [User::class, 'edit'])->name('user_edit');
+});

@@ -34,9 +34,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
 </head>
 
 <body>
@@ -244,18 +241,14 @@
                                     <div class="avatar-sm">
                                         <img src="{{ asset('assets/img/profile.jpg') }}" alt="..." class="avatar-img rounded-circle" />
                                     </div>
-                                    <span class="profile-username">
-                                        <span class="op-7">Hi,</span>
-                                        <span class="fw-bold">Hizrian</span>
-                                    </span>
+                                    <span class="profile-username">{{ Auth::user()->nama }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
                                     <div class="dropdown-user-scroll scrollbar-outer">
                                         <li>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">My Profile</a>
                                             <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Logout</a>
+                                            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
                                         </li>
                                     </div>
                                 </ul>
@@ -306,11 +299,59 @@
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
 
+    <!-- Bootstrap Notify -->
+    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
     <!-- jQuery Scrollbar -->
     <script src="{{ asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
 
     <!-- Kaiadmin JS -->
     <script src="{{ asset('assets/js/kaiadmin.min.js') }}"></script>
+    <script>
+        @if ($errors->any())
+            @foreach ($errors->all() as $e)
+                $.notify({
+                    title: 'FAILED',
+                    message: '{{ $e }}',
+                    icon: 'fas fa-exclamation-triangle',
+                }, {
+                    type: 'danger',
+                    placement: {
+                        from: 'top',
+                        align: 'right',
+                    },
+                    time: 1000,
+                    delay: 3000,
+                });
+            @endforeach
+        @endif
+        @if($notif = Session::get('alert'))
+            $.notify({
+                title: 'OK',
+                message: '{{ $notif }}',
+                icon: 'fas fa-check',
+            }, {
+                type: 'success',
+                placement: {
+                    from: 'top',
+                    align: 'right',
+                },
+                time: 1000,
+                delay: 3000,
+            });
+        @endif
+
+        $('.edit-user').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var level = button.data('level');
+            var nama = button.data('nama');
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
+            modal.find('input[name="nama"]').val(nama);
+            modal.find('select[name="level"]').val(level);
+        });
+    </script>
 </body>
 
 </html>
