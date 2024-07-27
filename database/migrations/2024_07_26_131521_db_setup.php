@@ -44,6 +44,7 @@ return new class extends Migration
             $table->string('penulis', 60);
             $table->string('penerbit', 60);
             $table->integer('id_kategori')->nullable();
+            $table->integer('jumlah')->nullable();
             $table->date('tanggal_rilis');
             $table->timestamps();
         });

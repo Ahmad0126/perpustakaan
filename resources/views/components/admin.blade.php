@@ -83,25 +83,25 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
+                            <a href="{{ route('member') }}">
                                 <i class="fas fa-th-list"></i>
                                 <p>Member</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
+                            <a href="{{ route('buku') }}">
                                 <i class="fas fa-pen-square"></i>
                                 <p>Buku</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
+                            <a href="{{ route('kategori') }}">
                                 <i class="fas fa-table"></i>
                                 <p>Kategori</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
+                            <a href="{{ route('pinjaman') }}">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <p>Pinjaman</p>
                             </a>
@@ -350,6 +350,44 @@
             modal.find('input[name="id"]').val(id);
             modal.find('input[name="nama"]').val(nama);
             modal.find('select[name="level"]').val(level);
+        });
+        $('.edit-kategori').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var nomor_rak = button.data('nomor_rak');
+            var nama = button.data('nama');
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
+            modal.find('input[name="nama"]').val(nama);
+            modal.find('input[name="nomor_rak"]').val(nomor_rak);
+        });
+        $('.edit-member').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var tanggal_lahir = button.data('tanggal_lahir');
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
+            modal.find('#inp_tanggal_lahir').val(tanggal_lahir);
+            modal.find('#inp_nama').val($('#nama').html());
+            modal.find('#inp_alamat').val($('#alamat').html());
+            modal.find('#inp_pendidikan').val($('#pendidikan').html());
+            modal.find('#inp_pekerjaan').val($('#pekerjaan').html());
+        });
+        $('.edit-buku').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var tanggal_rilis = button.data('tanggal_rilis');
+            var penulis = button.data('penulis');
+            var penerbit = button.data('penerbit');
+            var id_kategori = button.data('id_kategori');
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
+            modal.find('#inp_tanggal_rilis').val(tanggal_rilis);
+            modal.find('#inp_penulis').val(penulis);
+            modal.find('#inp_penerbit').val(penerbit);
+            modal.find('#inp_id_kategori').val(id_kategori);
+            modal.find('#inp_judul').val($('#judul').html());
+            modal.find('#inp_jumlah').val($('#jumlah').html());
         });
     </script>
 </body>

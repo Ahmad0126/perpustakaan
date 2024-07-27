@@ -43,4 +43,8 @@ class User extends Controller
 
         return redirect(route('user'))->with('alert', 'Berhasil Mengedit User');
     }
+    public function hapus($id){
+        ModelsUser::destroy($id);
+        return redirect(route('user'))->with('alert', 'Berhasil Menghapus User');
+    }
 }
