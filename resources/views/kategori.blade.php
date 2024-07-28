@@ -24,7 +24,9 @@
                                     <th scope="col">No</th>
                                     <th scope="col">Kategori</th>
                                     <th scope="col">Nomor Rak</th>
-                                    <th>Aksi</th>
+                                    @can('admin')
+                                        <th>Aksi</th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody>
@@ -34,10 +36,25 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $u->nama }}</td>
                                     <td>{{ $u->nomor_rak }}</td>
-                                    <td>
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-kategori" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-nomor_rak="{{ $u->nomor_rak }}">Edit <i class="fas fa-pen"></i></a>
-                                        <a class="btn btn-danger" href="{{ route('kategori_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus <i class="fas fa-trash"></i></a>
-                                    </td>
+                                    @can('admin')
+                                        <td>
+                                            <div class="d-none d-xl-block">
+                                                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-kategori" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-nomor_rak="{{ $u->nomor_rak }}"><i class="fas fa-pen"></i> Edit </a>
+                                                <a class="btn btn-danger" href="{{ route('kategori_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus kategori ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                            </div>
+                                            <div class="dropdown d-block d-xl-none">
+                                                <button class="btn btn-icon btn-clean me-0" type="button"
+                                                    id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".edit-kategori" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-nomor_rak="{{ $u->nomor_rak }}"><i class="fas fa-pen"></i> Edit </a>
+                                                    <a class="dropdown-item" href="{{ route('kategori_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus kategori ini?')"><i class="fas fa-trash"> Hapus </i></a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @endcan
                                 </tr>
                                 @endforeach
                             </tbody>

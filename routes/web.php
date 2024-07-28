@@ -28,25 +28,30 @@ Route::middleware('auth')->group(function(){
     Route::get('/', [Home::class, 'index'])->name('base');
     Route::get('/logout', [Home::class, 'logout'])->name('logout');
 
-    Route::get('/user', [User::class, 'index'])->name('user');
-    Route::post('/user/tambah', [User::class, 'tambah'])->name('user_tambah');
-    Route::post('/user/edit', [User::class, 'edit'])->name('user_edit');
-    Route::get('/user/hapus/{id}', [User::class, 'hapus'])->name('user_hapus');
+    Route::middleware('can:admin')->group(function(){
+        Route::get('/user', [User::class, 'index'])->name('user');
+        Route::post('/user/tambah', [User::class, 'tambah'])->name('user_tambah');
+        Route::post('/user/edit', [User::class, 'edit'])->name('user_edit');
+        Route::get('/user/hapus/{id}', [User::class, 'hapus'])->name('user_hapus');
+
+        Route::post('/buku/tambah', [Buku::class, 'tambah'])->name('buku_tambah');
+        Route::post('/buku/edit', [Buku::class, 'edit'])->name('buku_edit');
+        Route::get('/buku/hapus/{id}', [Buku::class, 'hapus'])->name('buku_hapus');
+        
+        Route::post('/kategori/tambah', [Kategori::class, 'tambah'])->name('kategori_tambah');
+        Route::post('/kategori/edit', [Kategori::class, 'edit'])->name('kategori_edit');
+        Route::get('/kategori/hapus/{id}', [Kategori::class, 'hapus'])->name('kategori_hapus');
+    });
 
     Route::get('/kategori', [Kategori::class, 'index'])->name('kategori');
-    Route::post('/kategori/tambah', [Kategori::class, 'tambah'])->name('kategori_tambah');
-    Route::post('/kategori/edit', [Kategori::class, 'edit'])->name('kategori_edit');
-    Route::get('/kategori/hapus/{id}', [Kategori::class, 'hapus'])->name('kategori_hapus');
+    
+    Route::get('/buku', [Buku::class, 'index'])->name('buku');
     
     Route::get('/member', [Member::class, 'index'])->name('member');
     Route::post('/member/tambah', [Member::class, 'tambah'])->name('member_tambah');
     Route::post('/member/edit', [Member::class, 'edit'])->name('member_edit');
     Route::get('/member/hapus/{id}', [Member::class, 'hapus'])->name('member_hapus');
     
-    Route::get('/buku', [Buku::class, 'index'])->name('buku');
-    Route::post('/buku/tambah', [Buku::class, 'tambah'])->name('buku_tambah');
-    Route::post('/buku/edit', [Buku::class, 'edit'])->name('buku_edit');
-    Route::get('/buku/hapus/{id}', [Buku::class, 'hapus'])->name('buku_hapus');
     
     Route::get('/pinjaman', [Pinjaman::class, 'index'])->name('pinjaman');
     Route::post('/pinjaman/tambah', [Pinjaman::class, 'tambah'])->name('pinjaman_tambah');

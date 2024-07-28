@@ -39,13 +39,35 @@
                                     <td id="kategori">{{ $u->kategori->nama }}</td>
                                     <td id="jumlah">{{ $u->jumlah }}</td>
                                     <td>
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".info-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}">
-                                            <i class="fas fa-info"></i> Info 
-                                        </a>
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ $u->tanggal_rilis }}" data-id_kategori="{{ $u->id_kategori }}">
-                                            <i class="fas fa-pen"></i> Edit 
-                                        </a>
-                                        <a class="btn btn-danger" href="{{ route('buku_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                        <div class="d-none d-xl-block">    
+                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".info-buku" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" data-dipinjam="{{ $u->dipinjam($u->id) }}">
+                                                <i class="fas fa-info"></i> Info 
+                                            </a>
+                                            @can('admin')
+                                                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ $u->tanggal_rilis }}" data-id_kategori="{{ $u->id_kategori }}">
+                                                    <i class="fas fa-pen"></i> Edit 
+                                                </a>
+                                                <a class="btn btn-danger" href="{{ route('buku_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                            @endcan
+                                        </div>
+                                        <div class="dropdown d-block d-xl-none">
+                                            <button class="btn btn-icon btn-clean me-0" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" data-dipinjam="{{ $u->dipinjam($u->id) }}">
+                                                    <i class="fas fa-info"></i> Info 
+                                                </a>
+                                                @can('admin')
+                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".edit-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ $u->tanggal_rilis }}" data-id_kategori="{{ $u->id_kategori }}">
+                                                        <i class="fas fa-pen"></i> Edit 
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{ route('buku_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                                @endcan
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -178,6 +200,88 @@
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade info-buku" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Informasi Buku</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            <h4>
+                                Judul
+                            </h4>
+                        </div>
+                        <div class="col-10">
+                            <h4>
+                                <strong id="info-judul"></strong>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Nomor Buku
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-nomor"></strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Penulis
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-penulis"></strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Penerbit
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-penerbit"></strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Kategori
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-kategori"></strong>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Tanggal Rilis
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-rilis"></strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Jumlah
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-jumlah"></strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-end">
+                            Dipinjam
+                        </div>
+                        <div class="col-10">
+                            <strong id="info-dipinjam"></strong>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

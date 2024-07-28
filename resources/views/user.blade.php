@@ -37,8 +37,21 @@
                                     <td>{{ $u->nama }}</td>
                                     <td><span class="badge @if($u->level == 'Admin') text-bg-warning @else text-bg-primary @endif">{{ $u->level }}</span></td>
                                     <td>
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-user" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-level="{{ $u->level }}">Edit <i class="fas fa-pen"></i></a>
-                                        <a class="btn btn-danger" href="{{ route('user_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus kategori ini?')">Hapus <i class="fas fa-trash"></i></a>
+                                        <div class="d-none d-xl-block">
+                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-user" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-level="{{ $u->level }}"><i class="fas fa-pen"></i> Edit </a>
+                                            <a class="btn btn-danger" href="{{ route('user_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus user ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                        </div>
+                                        <div class="dropdown d-block d-xl-none">
+                                            <button class="btn btn-icon btn-clean me-0" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".edit-user" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-level="{{ $u->level }}"><i class="fas fa-pen"></i> Edit </a>
+                                                <a class="dropdown-item" href="{{ route('user_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus user ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach

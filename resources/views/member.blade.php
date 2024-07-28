@@ -43,10 +43,25 @@
                                     <td id="pendidikan">{{ $u->pendidikan }}</td>
                                     <td id="pekerjaan">{{ $u->pekerjaan }}</td>
                                     <td>
-                                        <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-member" data-id="{{ $u->id }}" data-tanggal_lahir="{{ $u->tanggal_lahir }}">
-                                            Edit <i class="fas fa-pen"></i>
-                                        </a>
-                                        <a class="btn btn-danger" href="{{ route('member_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus member ini?')">Hapus <i class="fas fa-trash"></i></a>
+                                        <div class="d-none d-xl-block">
+                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-member" data-id="{{ $u->id }}" data-tanggal_lahir="{{ $u->tanggal_lahir }}">
+                                                <i class="fas fa-pen"></i> Edit 
+                                            </a>
+                                            <a class="btn btn-danger" href="{{ route('member_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus member ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                        </div>
+                                        <div class="dropdown d-block d-xl-none">
+                                            <button class="btn btn-icon btn-clean me-0" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".edit-member" data-id="{{ $u->id }}" data-tanggal_lahir="{{ $u->tanggal_lahir }}">
+                                                    <i class="fas fa-pen"></i> Edit 
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('member_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus member ini?')"><i class="fas fa-trash"></i> Hapus </a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach

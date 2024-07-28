@@ -76,21 +76,23 @@
                             </span>
                             <h4 class="text-section">Components</h4>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('user') }}">
-                                <i class="fas fa-layer-group"></i>
-                                <p>User</p>
-                            </a>
-                        </li>
+                        @can('admin')
+                            <li class="nav-item">
+                                <a href="{{ route('user') }}">
+                                    <i class="fas fa-user"></i>
+                                    <p>User</p>
+                                </a>
+                            </li>
+                        @endcan
                         <li class="nav-item">
                             <a href="{{ route('member') }}">
-                                <i class="fas fa-th-list"></i>
+                                <i class="fas fa-users"></i>
                                 <p>Member</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('buku') }}">
-                                <i class="fas fa-pen-square"></i>
+                                <i class="fas fa-book"></i>
                                 <p>Buku</p>
                             </a>
                         </li>
@@ -102,7 +104,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('pinjaman') }}">
-                                <i class="fas fa-map-marker-alt"></i>
+                                <i class="fas fa-edit"></i>
                                 <p>Pinjaman</p>
                             </a>
                         </li>
@@ -111,71 +113,6 @@
                                 <i class="far fa-chart-bar"></i>
                                 <p>Pengunjung</p>
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="widgets.html">
-                                <i class="fas fa-desktop"></i>
-                                <p>Widgets</p>
-                                <span class="badge badge-success">4</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="documentation/index.html">
-                                <i class="fas fa-file"></i>
-                                <p>Documentation</p>
-                                <span class="badge badge-secondary">1</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#submenu">
-                                <i class="fas fa-bars"></i>
-                                <p>Menu Levels</p>
-                                <span class="caret"></span>
-                            </a>
-                            <div class="collapse" id="submenu">
-                                <ul class="nav nav-collapse">
-                                    <li>
-                                        <a data-bs-toggle="collapse" href="#subnav1">
-                                            <span class="sub-item">Level 1</span>
-                                            <span class="caret"></span>
-                                        </a>
-                                        <div class="collapse" id="subnav1">
-                                            <ul class="nav nav-collapse subnav">
-                                                <li>
-                                                    <a href="#">
-                                                        <span class="sub-item">Level 2</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <span class="sub-item">Level 2</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a data-bs-toggle="collapse" href="#subnav2">
-                                            <span class="sub-item">Level 1</span>
-                                            <span class="caret"></span>
-                                        </a>
-                                        <div class="collapse" id="subnav2">
-                                            <ul class="nav nav-collapse subnav">
-                                                <li>
-                                                    <a href="#">
-                                                        <span class="sub-item">Level 2</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span class="sub-item">Level 1</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -388,6 +325,22 @@
             modal.find('#inp_id_kategori').val(id_kategori);
             modal.find('#inp_judul').val($('#judul').html());
             modal.find('#inp_jumlah').val($('#jumlah').html());
+        });
+        $('.info-buku').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var tanggal_rilis = button.data('tanggal_rilis');
+            var penulis = button.data('penulis');
+            var penerbit = button.data('penerbit');
+            var dipinjam = button.data('dipinjam');
+            var modal = $(this);
+            modal.find('#info-rilis').html(tanggal_rilis);
+            modal.find('#info-penulis').html(penulis);
+            modal.find('#info-penerbit').html(penerbit);
+            modal.find('#info-dipinjam').html(dipinjam);
+            modal.find('#info-kategori').html($('#kategori').html());
+            modal.find('#info-judul').html($('#judul').html());
+            modal.find('#info-jumlah').html($('#jumlah').html());
+            modal.find('#info-nomor').html($('#nomor_buku').html());
         });
     </script>
 </body>

@@ -18,4 +18,8 @@ class Buku extends Model
     public function kategori():BelongsTo{
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
+    public function dipinjam($id){
+        $buku = Pinjaman::where(['tanggal_kembali' => null, 'id_buku' => $id])->get();
+        return count($buku);
+    }
 }

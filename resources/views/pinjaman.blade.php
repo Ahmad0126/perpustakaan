@@ -7,7 +7,7 @@
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Pinjaman Buku</div>
                         <div class="card-tools">
-                            <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".edit-pinjaman">
+                            <button class="btn btn-secondary me-0" type="button" data-bs-toggle="modal" data-bs-target=".edit-pinjaman">
                                 Kembalikan
                             </button>
                             <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".modal-tambah">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Pinjamkan</button>
                     </div>
                 </form>
             </div>
@@ -91,7 +91,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Pinjaman</h5>
+                    <h5 class="modal-title">Kembalikan Buku</h5>
                     <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
                     </button>
                 </div>
@@ -110,7 +110,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Kembalikan</button>
                     </div>
                 </form>
             </div>
