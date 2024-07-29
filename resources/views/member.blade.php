@@ -91,6 +91,18 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input name="email" type="email" class="form-control" placeholder="Masukkan Email" value="{{ old('email') }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input name="password" type="password" class="form-control" placeholder="Buat Password">
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Tanggal lahir</label>
                                 <div class="col-sm-10">
                                     <input name="tanggal_lahir" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_lahir') }}">

@@ -33,4 +33,7 @@ class Home extends Controller
         $req->session()->regenerateToken();
         return redirect('login');
     }
+    public function daftar(){
+        return view('daftar');
+    }
 }

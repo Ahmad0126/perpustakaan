@@ -15,6 +15,8 @@ class Member extends Controller
     public function tambah(Request $req){
         $req->validate([
             'nama' => 'required|max:60',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|max:200'
         ]);
@@ -25,6 +27,8 @@ class Member extends Controller
         $member->alamat = $req->alamat;
         $member->pendidikan = $req->pendidikan;
         $member->pekerjaan = $req->pekerjaan;
+        $member->email = $req->email;
+        $member->password = $req->password;
         $member->nomor_member = fake('id_ID')->randomNumber(7, true);
         $member->save();
 
