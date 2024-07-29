@@ -15,6 +15,12 @@ class Buku extends Model
     public function pinjaman():HasMany{
         return $this->hasMany(Pinjaman::class, 'id_buku');
     }
+    public function ulasan():HasMany{
+        return $this->hasMany(Ulasan::class, 'id_buku');
+    }
+    public function koleksi():HasMany{
+        return $this->hasMany(Koleksi::class, 'id_buku');
+    }
     public function kategori():BelongsTo{
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }

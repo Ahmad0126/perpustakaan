@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Member as ModelsMember;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\Member as ModelsMember;
 
 class Member extends Controller
 {
@@ -21,14 +23,20 @@ class Member extends Controller
             'alamat' => 'required|max:200'
         ]);
 
+        $user = new User();
+        $user->username = $req->email;
+        $user->password = Hash::make($req->password);
+        $user->nama = $req->nama;
+        $user->level = 'Member';
+        $user->save();
+
         $member = new ModelsMember();
         $member->nama = $req->nama;
         $member->tanggal_lahir = $req->tanggal_lahir;
         $member->alamat = $req->alamat;
         $member->pendidikan = $req->pendidikan;
         $member->pekerjaan = $req->pekerjaan;
-        $member->email = $req->email;
-        $member->password = $req->password;
+        $member->id_user = $user->id;
         $member->nomor_member = fake('id_ID')->randomNumber(7, true);
         $member->save();
 
