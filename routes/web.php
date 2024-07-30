@@ -4,6 +4,7 @@ use App\Http\Controllers\Buku;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\User;
 use App\Http\Controllers\Member;
+use App\Http\Controllers\Koleksi;
 use App\Http\Controllers\Kategori;
 use App\Http\Controllers\Pinjaman;
 use Illuminate\Support\Facades\Route;
@@ -46,8 +47,13 @@ Route::middleware('auth')->group(function(){
     });
 
     Route::get('/kategori', [Kategori::class, 'index'])->name('kategori');
+
+    Route::get('/koleksi', [Koleksi::class, 'index'])->name('koleksi');
+    Route::post('/koleksi/add', [Koleksi::class, 'add'])->name('koleksi_add');
+    Route::get('/koleksi/hapus/{id}', [Koleksi::class, 'hapus'])->name('koleksi_hapus');
     
     Route::get('/buku', [Buku::class, 'index'])->name('buku');
+    Route::get('/buku/detail', [Buku::class, 'detail'])->name('buku_detail');
     Route::post('/buku/pinjam', [Pinjaman::class, 'pinjam'])->name('buku_pinjam');
     
     Route::get('/member', [Member::class, 'index'])->name('member');

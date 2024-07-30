@@ -39,6 +39,10 @@ class Buku extends Controller
 
         return redirect(route('buku'))->with('alert', 'Berhasil Menambahkan Buku');
     }
+    public function detail(){
+        $data['title'] = 'Detail Buku | Perpustakaan';
+        return view('datail_buku', $data);
+    }
     public function edit(Request $req){
         $req->validate([
             'judul' => 'required|max:128|unique:buku,judul,'.$req->id.',id',

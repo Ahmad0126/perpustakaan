@@ -8,7 +8,7 @@
     <link rel="icon" href="{{ asset('assets/img/kaiadmin/favicon.ico') }}" type="image/x-icon" />
 
     <!-- Fonts and icons -->
-    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
         WebFont.load({
             google: {
@@ -21,7 +21,7 @@
                     "Font Awesome 5 Brands",
                     "simple-line-icons",
                 ],
-                urls: ["assets/css/fonts.min.css"],
+                urls: ["{{ asset('assets/css/fonts.min.css') }}"],
             },
             active: function () {
                 sessionStorage.fonts = true;
@@ -104,19 +104,19 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('pinjaman') }}">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-download"></i>
                                 <p>Pinjaman</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
-                                <i class="far fa-chart-bar"></i>
+                            <a href="{{ route('koleksi') }}">
+                                <i class="fas fa-bookmark"></i>
                                 <p>Koleksi</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="sghdgs">
-                                <i class="far fa-chart-bar"></i>
+                                <i class="fas fa-comment"></i>
                                 <p>Ulasan</p>
                             </a>
                         </li>
@@ -345,7 +345,7 @@
             modal.find('#info-jumlah').html(button.data('jumlah'));
             modal.find('#info-nomor').html(button.data('nomor'));
             if(action == 'koleksi'){
-                modal.find('form').attr('action', 'koleksi');
+                modal.find('form').attr('action', '{{ route("koleksi_add") }}');
                 modal.find('input[name="id"]').val(id);
                 modal.find('.modal-footer').removeClass('d-none');
                 modal.find('.modal-title').html('Tambahkan ke Koleksi');

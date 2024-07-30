@@ -47,11 +47,10 @@
                                                 <i class="fas fa-eye"></i>  Lihat
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <input type="hidden" id="penulis" value="">
-                                                <input type="hidden" id="penerbit" value="">
-                                                <input type="hidden" id="tanggal_rilis" value="">
-                                                <input type="hidden" id="dipinjam" value="">
-                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku">
+                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku" data-penerbit="{{ $u->penerbit }}" 
+                                                    data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
+                                                    data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
+                                                    data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
                                                     <i class="fas fa-info"></i> Info 
                                                 </a>
                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku" 
@@ -66,7 +65,7 @@
                                                     data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
                                                     data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
                                                     data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
-                                                    <i class="fas fa-book-bookmark"></i> Pinjam
+                                                    <i class="fas fa-download"></i> Pinjam
                                                 </a>
                                                 <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".ulas-buku"
                                                     data-id="{{ $u->id }}" data-penerbit="{{ $u->penerbit }}" 
