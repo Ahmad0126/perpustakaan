@@ -37,14 +37,14 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $u->nomor_member }}</td>
-                                    <td id="nama">{{ $u->nama }}</td>
+                                    <td>{{ $u->nama }}</td>
                                     <td>{{ date('j F Y', strtotime($u->tanggal_lahir)) }}</td>
-                                    <td id="alamat">{{ $u->alamat }}</td>
-                                    <td id="pendidikan">{{ $u->pendidikan }}</td>
-                                    <td id="pekerjaan">{{ $u->pekerjaan }}</td>
+                                    <td>{{ $u->alamat }}</td>
+                                    <td>{{ $u->pendidikan }}</td>
+                                    <td>{{ $u->pekerjaan }}</td>
                                     <td>
                                         <div class="d-none d-xl-block">
-                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-member" data-id="{{ $u->id }}" data-tanggal_lahir="{{ $u->tanggal_lahir }}">
+                                            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-member" data-id="{{ $u->id }}" data-tanggal_lahir="{{ $u->tanggal_lahir }}" data-nama="{{ $u->nama }}" data-alamat="{{ $u->alamat }}" data-pekerjaan="{{ $u->pekerjaan }}" data-pendidikan="{{ $u->pendidikan }}">
                                                 <i class="fas fa-pen"></i> Edit 
                                             </a>
                                             <a class="btn btn-danger" href="{{ route('member_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus member ini?')"><i class="fas fa-trash"></i> Hapus </a>

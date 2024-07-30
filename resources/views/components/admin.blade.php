@@ -111,6 +111,18 @@
                         <li class="nav-item">
                             <a href="sghdgs">
                                 <i class="far fa-chart-bar"></i>
+                                <p>Koleksi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="sghdgs">
+                                <i class="far fa-chart-bar"></i>
+                                <p>Ulasan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="sghdgs">
+                                <i class="far fa-chart-bar"></i>
                                 <p>Pengunjung</p>
                             </a>
                         </li>
@@ -300,47 +312,55 @@
         });
         $('.edit-member').on('show.bs.modal', function(event){
             var button = $(event.relatedTarget);
-            var tanggal_lahir = button.data('tanggal_lahir');
-            var id = button.data('id');
             var modal = $(this);
-            modal.find('input[name="id"]').val(id);
-            modal.find('#inp_tanggal_lahir').val(tanggal_lahir);
-            modal.find('#inp_nama').val($('#nama').html());
-            modal.find('#inp_alamat').val($('#alamat').html());
-            modal.find('#inp_pendidikan').val($('#pendidikan').html());
-            modal.find('#inp_pekerjaan').val($('#pekerjaan').html());
+            modal.find('input[name="id"]').val(button.data('id'));
+            modal.find('#inp_tanggal_lahir').val(button.data('tanggal_lahir'));
+            modal.find('#inp_nama').val(button.data('nama'));
+            modal.find('#inp_alamat').val(button.data('alamat'));
+            modal.find('#inp_pendidikan').val(button.data('pendidikan'));
+            modal.find('#inp_pekerjaan').val(button.data('pekerjaan'));
         });
         $('.edit-buku').on('show.bs.modal', function(event){
             var button = $(event.relatedTarget);
-            var tanggal_rilis = button.data('tanggal_rilis');
-            var penulis = button.data('penulis');
-            var penerbit = button.data('penerbit');
-            var id_kategori = button.data('id_kategori');
-            var id = button.data('id');
             var modal = $(this);
-            modal.find('input[name="id"]').val(id);
-            modal.find('#inp_tanggal_rilis').val(tanggal_rilis);
-            modal.find('#inp_penulis').val(penulis);
-            modal.find('#inp_penerbit').val(penerbit);
-            modal.find('#inp_id_kategori').val(id_kategori);
-            modal.find('#inp_judul').val($('#judul').html());
-            modal.find('#inp_jumlah').val($('#jumlah').html());
+            modal.find('input[name="id"]').val(button.data('id'));
+            modal.find('#inp_tanggal_rilis').val(button.data('tanggal_rilis'));
+            modal.find('#inp_penulis').val(button.data('penulis'));
+            modal.find('#inp_penerbit').val(button.data('penerbit'));
+            modal.find('#inp_id_kategori').val(button.data('id_kategori'));
+            modal.find('#inp_judul').val(button.data('judul'));
+            modal.find('#inp_jumlah').val(button.data('jumlah'));
         });
         $('.info-buku').on('show.bs.modal', function(event){
             var button = $(event.relatedTarget);
-            var tanggal_rilis = button.data('tanggal_rilis');
-            var penulis = button.data('penulis');
-            var penerbit = button.data('penerbit');
-            var dipinjam = button.data('dipinjam');
+            var action = button.data('action');
+            var id = button.data('id');
             var modal = $(this);
-            modal.find('#info-rilis').html(tanggal_rilis);
-            modal.find('#info-penulis').html(penulis);
-            modal.find('#info-penerbit').html(penerbit);
-            modal.find('#info-dipinjam').html(dipinjam);
-            modal.find('#info-kategori').html($('#kategori').html());
-            modal.find('#info-judul').html($('#judul').html());
-            modal.find('#info-jumlah').html($('#jumlah').html());
-            modal.find('#info-nomor').html($('#nomor_buku').html());
+            modal.find('#info-rilis').html(button.data('tanggal_rilis'));
+            modal.find('#info-penulis').html(button.data('penulis'));
+            modal.find('#info-penerbit').html(button.data('penerbit'));
+            modal.find('#info-dipinjam').html(button.data('dipinjam'));
+            modal.find('#info-kategori').html(button.data('kategori'));
+            modal.find('#info-judul').html(button.data('judul'));
+            modal.find('#info-jumlah').html(button.data('jumlah'));
+            modal.find('#info-nomor').html(button.data('nomor'));
+            if(action == 'koleksi'){
+                modal.find('form').attr('action', 'koleksi');
+                modal.find('input[name="id"]').val(id);
+                modal.find('.modal-footer').removeClass('d-none');
+                modal.find('.modal-title').html('Tambahkan ke Koleksi');
+            }
+            else if(action == 'pinjam'){
+                modal.find('form').attr('action', '{{ route("buku_pinjam") }}');
+                modal.find('input[name="id"]').val(id);
+                modal.find('.modal-footer').removeClass('d-none');
+                modal.find('.modal-title').html('Pinjam Buku');
+            }
+            else{
+                modal.find('form').attr('action', '');
+                modal.find('.modal-footer').addClass('d-none');
+                modal.find('.modal-title').html('Informasi Buku');
+            }
         });
     </script>
 </body>

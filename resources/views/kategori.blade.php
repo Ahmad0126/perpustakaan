@@ -6,13 +6,15 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Kategori</div>
-                        <div class="card-tools">
-                            <div class="dropdown">
-                                <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".modal-tambah">
-                                    Tambah
-                                </button>
+                        @can('admin')
+                            <div class="card-tools">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".modal-tambah">
+                                        Tambah
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body p-0">

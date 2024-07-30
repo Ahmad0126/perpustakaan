@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/kategori', [Kategori::class, 'index'])->name('kategori');
     
     Route::get('/buku', [Buku::class, 'index'])->name('buku');
+    Route::post('/buku/pinjam', [Pinjaman::class, 'pinjam'])->name('buku_pinjam');
     
     Route::get('/member', [Member::class, 'index'])->name('member');
     Route::post('/member/tambah', [Member::class, 'tambah'])->name('member_tambah');

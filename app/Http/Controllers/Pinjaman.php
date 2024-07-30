@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\Member;
 use App\Models\Pinjaman as ModelsPinjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Pinjaman extends Controller
 {
@@ -26,10 +27,21 @@ class Pinjaman extends Controller
         $pinjaman = new ModelsPinjaman();
         $pinjaman->id_buku = $buku->id;
         $pinjaman->id_member = $req->id_member;
+        $pinjaman->status = 'dipinjam';
         $pinjaman->tanggal_dipinjam = date('Y-m-d');
         $pinjaman->save();
 
         return redirect(route('pinjaman'))->with('alert', 'Berhasil Meminjam Buku');
+    }
+    public function pinjam(Request $req){
+        $pinjaman = new ModelsPinjaman();
+        $pinjaman->id_buku = $req->id;
+        $pinjaman->id_member = Auth::user()->id;
+        $pinjaman->tanggal_dipinjam = date('Y-m-d');
+        $pinjaman->status = 'dipinjam';
+        $pinjaman->save();
+
+        return redirect(route('buku'))->with('alert', 'Berhasil Meminjam Buku');
     }
     public function edit(Request $req){
         $req->validate([
@@ -43,6 +55,7 @@ class Pinjaman extends Controller
         }
 
         $pinjaman->tanggal_kembali = date('Y-m-d');
+        $pinjaman->status = 'tersedia';
         $pinjaman->save();
 
         return redirect(route('pinjaman'))->with('alert', 'Berhasil Mengembalikan Buku');
