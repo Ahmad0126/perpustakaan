@@ -1,5 +1,71 @@
 <x-admin>
     <x-slot:title>{{ $title }}</x-slot:title>
+    @can('member')
+    <div class="row">
+        <div class="col">
+            <div class="card card-round">
+                <form action="{{ route('pinjaman_tambah') }}" method="post">
+                    <div class="card-header">
+                        <div class="card-head-row card-tools-still-right">
+                            <div class="card-title">Pinjam Buku</div>
+                            <div class="card-tools">
+                                <div class="dropdown">
+                                    <button class="btn btn-primary me-0" type="submit">
+                                        Pinjam
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="form-group">
+                            <input name="nomor" type="text" class="form-control" placeholder="Masukkan Nomor Buku" value="{{ old('nomor') }}">
+                            <input name="id_member" type="hidden" class="form-control" value="{{ Auth::user()->id }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Buku Pinjaman Saya</div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nomor Buku</th>
+                                <th scope="col">Judul</th>
+                                <th scope="col">Penulis</th>
+                                <th scope="col">Tanggal Dipinjam</th>
+                                <th scope="col">Tanggal Kembali</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1; @endphp
+                            @foreach ($pinjaman as $u)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $u->buku->nomor_buku }}</td>
+                                <td>{{ $u->buku->judul }}</td>
+                                <td>{{ $u->buku->penulis }}</td>
+                                <td>{{ date('j F Y', strtotime($u->tanggal_dipinjam)) }}</td>
+                                <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endcan
+    @can('petugas')
     <div class="row">
         <div class="col">
             <div class="card card-round">
@@ -23,9 +89,9 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">No</th>
-                                    <th scope="col">Nomor Member</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Buku</th>
+                                    <th scope="col">Nomor Buku</th>
+                                    <th scope="col">Peminjam</th>
+                                    <th scope="col">Judul</th>
                                     <th scope="col">Tanggal Dipinjam</th>
                                     <th scope="col">Tanggal Kembali</th>
                                 </tr>
@@ -35,9 +101,9 @@
                                 @foreach ($pinjaman as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $u->member->nomor_member }}</td>
-                                    <td id="nama">{{ $u->member->nama }}</td>
-                                    <td id="nama">{{ $u->buku->judul }}</td>
+                                    <td>{{ $u->buku->nomor_buku }}</td>
+                                    <td>{{ $u->member->nama }}</td>
+                                    <td>{{ $u->buku->judul }}</td>
                                     <td>{{ date('j F Y', strtotime($u->tanggal_dipinjam)) }}</td>
                                     <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
                                 </tr>
@@ -116,4 +182,5 @@
             </div>
         </div>
     </div>
+    @endcan
 </x-admin>
