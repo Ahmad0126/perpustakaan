@@ -40,47 +40,20 @@
                                     <td>{{ $u->kategori->nama }}</td>
                                     <td class="d-none">{{ $u->jumlah }}</td>
                                     <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-primary" type="button"
-                                                id="dropdownMenuButton" data-bs-toggle="dropdown"
-                                                aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-eye"></i>  Lihat
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku" data-penerbit="{{ $u->penerbit }}" 
-                                                    data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
-                                                    data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
-                                                    data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
-                                                    <i class="fas fa-info"></i> Info 
-                                                </a>
-                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku" 
-                                                    data-id="{{ $u->id }}" data-action="koleksi" data-penerbit="{{ $u->penerbit }}" 
-                                                    data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
-                                                    data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
-                                                    data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
-                                                    <i class="fas fa-bookmark"></i> Tambah Ke Koleksi 
-                                                </a>
-                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".info-buku"
-                                                    data-id="{{ $u->id }}" data-action="pinjam" data-penerbit="{{ $u->penerbit }}" 
-                                                    data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
-                                                    data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
-                                                    data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
-                                                    <i class="fas fa-download"></i> Pinjam
-                                                </a>
-                                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".ulas-buku"
-                                                    data-id="{{ $u->id }}" data-penerbit="{{ $u->penerbit }}" 
-                                                    data-penulis="{{ $u->penulis }}" data-tanggal_rilis="{{ date('j F Y', strtotime($u->tanggal_rilis)) }}" 
-                                                    data-dipinjam="{{ $u->dipinjam($u->id) }}" data-nomor="{{ $u->nomor_buku }}" 
-                                                    data-judul="{{ $u->judul }}" data-kategori="{{ $u->kategori->nama }}" data-jumlah="{{ $u->jumlah }}">
-                                                    <i class="fas fa-star"></i> Ulas 
-                                                </a>
-                                                @can('admin')
-                                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target=".edit-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ $u->tanggal_rilis }}" data-id_kategori="{{ $u->id_kategori }}" data-judul="{{ $u->judul }}" data-jumlah="{{ $u->jumlah }}">
+                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                            <a href="{{ route('buku_detail', $u->nomor_buku) }}" class="btn btn-primary"><i class="fas fa-info"></i>  Info</a>
+                                            @can('admin')
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <a class="dropdown-item c-pointer" data-bs-toggle="modal" data-bs-target=".edit-buku" data-id="{{ $u->id }}" data-penulis="{{ $u->penulis }}" data-penerbit="{{ $u->penerbit }}" data-tanggal_rilis="{{ $u->tanggal_rilis }}" data-id_kategori="{{ $u->id_kategori }}" data-judul="{{ $u->judul }}" data-jumlah="{{ $u->jumlah }}">
                                                         <i class="fas fa-pen"></i> Edit 
                                                     </a>
                                                     <a class="dropdown-item" href="{{ route('buku_hapus', $u->id) }}" onclick="return confirm('Yakin ingin menghapus buku ini?')"><i class="fas fa-trash"></i> Hapus </a>
-                                                @endcan
+                                                </ul>
                                             </div>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

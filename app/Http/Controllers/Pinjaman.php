@@ -41,7 +41,7 @@ class Pinjaman extends Controller
         $pinjaman->status = 'dipinjam';
         $pinjaman->save();
 
-        return redirect(route('buku'))->with('alert', 'Berhasil Meminjam Buku');
+        return back()->with('alert', 'Berhasil Meminjam Buku');
     }
     public function edit(Request $req){
         $req->validate([

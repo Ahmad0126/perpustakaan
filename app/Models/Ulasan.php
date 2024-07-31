@@ -14,4 +14,7 @@ class Ulasan extends Model
     public function buku():BelongsTo{
         return $this->belongsTo(Buku::class, 'id_buku');
     }
+    public function user():BelongsTo{
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

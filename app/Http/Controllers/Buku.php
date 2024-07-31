@@ -39,7 +39,8 @@ class Buku extends Controller
 
         return redirect(route('buku'))->with('alert', 'Berhasil Menambahkan Buku');
     }
-    public function detail(){
+    public function detail($nomor){
+        $data['buku'] = ModelsBuku::where('nomor_buku', $nomor)->get()->first();
         $data['title'] = 'Detail Buku | Perpustakaan';
         return view('datail_buku', $data);
     }
