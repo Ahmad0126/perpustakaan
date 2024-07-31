@@ -12,6 +12,7 @@ class Ulasan extends Controller
     public function index(){
         $data['ulasan'] = User::find(Auth::user()->id)->ulasan;
         $data['title'] = "Ulasan Anda | Perpustakaan";
+        return view('ulasan', $data);
     }
     public function ulas(Request $req){
         $req->validate([

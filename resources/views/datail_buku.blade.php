@@ -88,14 +88,17 @@
                                 <button type="submit" class="btn btn-secondary"><i class="fas fa-download"></i> Pinjam</button>
                             </form>
                             @endcan
+                            @if(Gate::allows('belum_simpan', $buku->id))
                             <form class="d-inline-block" action="{{ route('koleksi_add') }}" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{ $buku->id }}">
                                 <button type="submit" class="btn btn-primary"><i class="fas fa-bookmark"></i> Simpan</button>
                             </form>
+                            @endif
                         </div>
                     </div>
                 </div>
+                @if(Gate::allows('belum_ulas', $buku->id))
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -139,6 +142,7 @@
                         </form>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
         <div class="col-xl-6 col-12">

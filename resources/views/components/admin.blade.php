@@ -115,7 +115,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="sghdgs">
+                            <a href="{{ route('ulasan') }}">
                                 <i class="fas fa-comment"></i>
                                 <p>Ulasan</p>
                             </a>
@@ -249,7 +249,7 @@
     <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="../assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="{{ asset('assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js') }}"></script>
 
     <!-- jQuery Scrollbar -->
     <script src="{{ asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
@@ -361,6 +361,11 @@
                 modal.find('.modal-footer').addClass('d-none');
                 modal.find('.modal-title').html('Informasi Buku');
             }
+        });
+        $('#komentar').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('#ulasan').html(button.data('ulasan'));
         });
     </script>
 </body>

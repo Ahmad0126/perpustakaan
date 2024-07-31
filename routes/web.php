@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/kategori', [Kategori::class, 'index'])->name('kategori');
     
+    Route::get('/ulasan', [Ulasan::class, 'index'])->name('ulasan');
     Route::post('/ulasan/ulas', [Ulasan::class, 'ulas'])->name('ulas');
 
     Route::get('/koleksi', [Koleksi::class, 'index'])->name('koleksi');

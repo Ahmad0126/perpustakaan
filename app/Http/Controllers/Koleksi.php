@@ -38,7 +38,7 @@ class Koleksi extends Controller
         $koleksi->id_user = Auth::user()->id;
         $koleksi->save();
 
-        return redirect(route('buku'))->with('alert', 'Berhasil Ditambahkan Ke Koleksi');
+        return back()->with('alert', 'Berhasil Ditambahkan Ke Koleksi');
     }
     public function hapus($id){
         ModelsKoleksi::destroy($id);
