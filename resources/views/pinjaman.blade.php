@@ -44,18 +44,20 @@
                                 <th scope="col">Penulis</th>
                                 <th scope="col">Tanggal Dipinjam</th>
                                 <th scope="col">Tanggal Kembali</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php $no = 1; @endphp
-                            @foreach ($pinjaman as $u)
+                            @foreach ($buku as $u)
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $u->buku->nomor_buku }}</td>
-                                <td>{{ $u->buku->judul }}</td>
+                                <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
                                 <td>{{ $u->buku->penulis }}</td>
                                 <td>{{ date('j F Y', strtotime($u->tanggal_dipinjam)) }}</td>
                                 <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                                <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -94,6 +96,7 @@
                                     <th scope="col">Judul</th>
                                     <th scope="col">Tanggal Dipinjam</th>
                                     <th scope="col">Tanggal Kembali</th>
+                                    <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,10 +105,11 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $u->buku->nomor_buku }}</td>
-                                    <td>{{ $u->member->nama }}</td>
-                                    <td>{{ $u->buku->judul }}</td>
+                                    <td>{{ $u->member->user->nama }}</td>
+                                    <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
                                     <td>{{ date('j F Y', strtotime($u->tanggal_dipinjam)) }}</td>
                                     <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                                    <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -138,7 +142,7 @@
                                 <div class="col-sm-10">
                                     <select name="id_member" class="form-select mr-sm-2">
                                         @foreach ($member as $k)
-                                            <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                            <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -170,6 +174,16 @@
                                 <label class="col-sm-2 col-form-label">Nomor Buku</label>
                                 <div class="col-sm-10">
                                     <input name="nomor_buku" type="text" class="form-control" placeholder="Masukkan Nomor" value="{{ old('nomor_buku') }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Member</label>
+                                <div class="col-sm-10">
+                                    <select name="id_member" class="form-select mr-sm-2">
+                                        @foreach ($member as $k)
+                                            <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

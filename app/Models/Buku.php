@@ -25,7 +25,7 @@ class Buku extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
     public function dipinjam($id){
-        $buku = Pinjaman::where(['tanggal_kembali' => null, 'id_buku' => $id])->get();
+        $buku = Pinjaman::where(['status' => 'dipinjam', 'id_buku' => $id])->get();
         return count($buku);
     }
 }

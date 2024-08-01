@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Koleksi;
+use App\Models\Pinjaman;
 use App\Models\Ulasan;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -38,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
         });
         Gate::define('belum_simpan', function(User $user, $id_buku){
             $buku = Koleksi::where(['id_user' => $user->id, 'id_buku' => $id_buku])->get();
+            return count($buku) == 0;
+        });
+        Gate::define('belum_pinjam', function(User $user, $id_buku){
+            $buku = Pinjaman::where(['id_member' => $user->member->id, 'id_buku' => $id_buku])->get();
             return count($buku) == 0;
         });
     }

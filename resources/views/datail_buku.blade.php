@@ -82,11 +82,13 @@
                         </div>
                         <div class="card-footer text-end">
                             @can('member')
-                            <form class="d-inline-block" action="{{ route('buku_pinjam') }}" method="post">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $buku->id }}">
-                                <button type="submit" class="btn btn-secondary"><i class="fas fa-download"></i> Pinjam</button>
-                            </form>
+                                @if(Gate::allows('belum_pinjam', $buku->id))
+                                    <form class="d-inline-block" action="{{ route('buku_pinjam') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $buku->id }}">
+                                        <button type="submit" class="btn btn-secondary"><i class="fas fa-download"></i> Pinjam</button>
+                                    </form>
+                                @endif
                             @endcan
                             @if(Gate::allows('belum_simpan', $buku->id))
                             <form class="d-inline-block" action="{{ route('koleksi_add') }}" method="post">

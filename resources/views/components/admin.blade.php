@@ -36,6 +36,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
 </head>
 
+@php
+$url = explode('/', url()->current());
+if(count($url) == 3){ $url[3] = 'base'; }
+@endphp
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
@@ -64,7 +68,7 @@
             <div class="sidebar-wrapper scrollbar scrollbar-inner">
                 <div class="sidebar-content">
                     <ul class="nav nav-secondary">
-                        <li class="nav-item active">
+                        <li class="nav-item @if ($url[3] == 'base') active @endif">
                             <a href="{{ route('base') }}">
                                 <i class="fas fa-home"></i>
                                 <p>Dashboard</p>
@@ -76,54 +80,49 @@
                             </span>
                             <h4 class="text-section">Components</h4>
                         </li>
+                        
                         @can('admin')
-                            <li class="nav-item">
+                            <li class="nav-item @if ($url[3] == 'user') active @endif">
                                 <a href="{{ route('user') }}">
                                     <i class="fas fa-user"></i>
                                     <p>User</p>
                                 </a>
                             </li>
                         @endcan
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'member') active @endif">
                             <a href="{{ route('member') }}">
                                 <i class="fas fa-users"></i>
                                 <p>Member</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'buku') active @endif">
                             <a href="{{ route('buku') }}">
                                 <i class="fas fa-book"></i>
                                 <p>Buku</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'kategori') active @endif">
                             <a href="{{ route('kategori') }}">
                                 <i class="fas fa-table"></i>
                                 <p>Kategori</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'pinjaman') active @endif">
                             <a href="{{ route('pinjaman') }}">
                                 <i class="fas fa-download"></i>
                                 <p>Pinjaman</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'koleksi') active @endif">
                             <a href="{{ route('koleksi') }}">
                                 <i class="fas fa-bookmark"></i>
                                 <p>Koleksi</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item @if ($url[3] == 'ulasan') active @endif">
                             <a href="{{ route('ulasan') }}">
                                 <i class="fas fa-comment"></i>
                                 <p>Ulasan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="sghdgs">
-                                <i class="far fa-chart-bar"></i>
-                                <p>Pengunjung</p>
                             </a>
                         </li>
                     </ul>

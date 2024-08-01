@@ -5,7 +5,7 @@
             <div class="card card-round">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <div class="card-title">Daftar Koleksi Buku</div>
+                        <div class="card-title">Koleksi Buku Saya</div>
                     </div>
                 </div>
                 <div class="card-body p-0">

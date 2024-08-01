@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Buku</div>
-                        @can('admin')
+                        @can('petugas')
                             <div class="card-tools">
                                 <div class="dropdown">
                                     <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".modal-tambah">
@@ -42,7 +42,7 @@
                                     <td>
                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                                             <a href="{{ route('buku_detail', $u->nomor_buku) }}" class="btn btn-primary"><i class="fas fa-info"></i>  Info</a>
-                                            @can('admin')
+                                            @can('petugas')
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                 </button>
@@ -65,129 +65,131 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-tambah" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambahkan Buku</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
-                    </button>
-                </div>
-                <form action="{{ route('buku_tambah') }}" method="post">
-                    <div class="modal-body">
-                        @csrf
-                        <div class="basic-form">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Judul</label>
-                                <div class="col-sm-10">
-                                    <input name="judul" type="text" class="form-control" placeholder="Masukkan Judul" value="{{ old('judul') }}">
+    @can('petugas')
+        <div class="modal fade modal-tambah" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Tambahkan Buku</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('buku_tambah') }}" method="post">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="basic-form">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Judul</label>
+                                    <div class="col-sm-10">
+                                        <input name="judul" type="text" class="form-control" placeholder="Masukkan Judul" value="{{ old('judul') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Penulis</label>
-                                <div class="col-sm-10">
-                                    <input name="penulis" type="text" class="form-control" placeholder="Masukkan Penulis" value="{{ old('penulis') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Penulis</label>
+                                    <div class="col-sm-10">
+                                        <input name="penulis" type="text" class="form-control" placeholder="Masukkan Penulis" value="{{ old('penulis') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Penerbit</label>
-                                <div class="col-sm-10">
-                                    <input name="penerbit" type="text" class="form-control" placeholder="Masukkan Penerbit" value="{{ old('penerbit') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Penerbit</label>
+                                    <div class="col-sm-10">
+                                        <input name="penerbit" type="text" class="form-control" placeholder="Masukkan Penerbit" value="{{ old('penerbit') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Tanggal Rilis</label>
-                                <div class="col-sm-10">
-                                    <input name="tanggal_rilis" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_rilis') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Tanggal Rilis</label>
+                                    <div class="col-sm-10">
+                                        <input name="tanggal_rilis" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_rilis') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Kategori</label>
-                                <div class="col-sm-10">
-                                    <select name="id_kategori" class="form-select mr-sm-2">
-                                        @foreach ($kategori as $k)
-                                            <option value="{{ $k->id }}">{{ $k->nama }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <div class="col-sm-10">
+                                        <select name="id_kategori" class="form-select mr-sm-2">
+                                            @foreach ($kategori as $k)
+                                                <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Jumlah</label>
-                                <div class="col-sm-10">
-                                    <input name="jumlah" type="number" class="form-control" placeholder="Masukkan Jumlah" value="{{ old('jumlah') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Jumlah</label>
+                                    <div class="col-sm-10">
+                                        <input name="jumlah" type="number" class="form-control" placeholder="Masukkan Jumlah" value="{{ old('jumlah') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade edit-buku" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Buku</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
-                    </button>
-                </div>
-                <form action="{{ route('buku_edit') }}" method="post">
-                    <div class="modal-body">
-                        @csrf
-                        <input type="hidden" name="id">
-                        <div class="basic-form">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Judul</label>
-                                <div class="col-sm-10">
-                                    <input id="inp_judul" name="judul" type="text" class="form-control" placeholder="Masukkan Judul" value="{{ old('judul') }}">
+        <div class="modal fade edit-buku" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Buku</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('buku_edit') }}" method="post">
+                        <div class="modal-body">
+                            @csrf
+                            <input type="hidden" name="id">
+                            <div class="basic-form">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Judul</label>
+                                    <div class="col-sm-10">
+                                        <input id="inp_judul" name="judul" type="text" class="form-control" placeholder="Masukkan Judul" value="{{ old('judul') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Penulis</label>
-                                <div class="col-sm-10">
-                                    <input id="inp_penulis" name="penulis" type="text" class="form-control" placeholder="Masukkan Penulis" value="{{ old('penulis') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Penulis</label>
+                                    <div class="col-sm-10">
+                                        <input id="inp_penulis" name="penulis" type="text" class="form-control" placeholder="Masukkan Penulis" value="{{ old('penulis') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Penerbit</label>
-                                <div class="col-sm-10">
-                                    <input id="inp_penerbit" name="penerbit" type="text" class="form-control" placeholder="Masukkan Penerbit" value="{{ old('penerbit') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Penerbit</label>
+                                    <div class="col-sm-10">
+                                        <input id="inp_penerbit" name="penerbit" type="text" class="form-control" placeholder="Masukkan Penerbit" value="{{ old('penerbit') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Tanggal Rilis</label>
-                                <div class="col-sm-10">
-                                    <input id="inp_tanggal_rilis" name="tanggal_rilis" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_rilis') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Tanggal Rilis</label>
+                                    <div class="col-sm-10">
+                                        <input id="inp_tanggal_rilis" name="tanggal_rilis" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_rilis') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Kategori</label>
-                                <div class="col-sm-10">
-                                    <select id="inp_id_kategori" name="id_kategori" class="form-select mr-sm-2">
-                                        @foreach ($kategori as $k)
-                                            <option value="{{ $k->id }}">{{ $k->nama }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Kategori</label>
+                                    <div class="col-sm-10">
+                                        <select id="inp_id_kategori" name="id_kategori" class="form-select mr-sm-2">
+                                            @foreach ($kategori as $k)
+                                                <option value="{{ $k->id }}">{{ $k->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Jumlah</label>
-                                <div class="col-sm-10">
-                                    <input id="inp_jumlah" name="jumlah" type="number" class="form-control" placeholder="Masukkan Jumlah" value="{{ old('jumlah') }}">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Jumlah</label>
+                                    <div class="col-sm-10">
+                                        <input id="inp_jumlah" name="jumlah" type="number" class="form-control" placeholder="Masukkan Jumlah" value="{{ old('jumlah') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endcan
 </x-admin>

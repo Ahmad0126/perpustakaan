@@ -17,7 +17,7 @@ class Member extends Controller
     public function tambah(Request $req){
         $req->validate([
             'nama' => 'required|max:60',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:user,username',
             'password' => 'required|min:8',
             'tanggal_lahir' => 'required|date',
             'alamat' => 'required|max:200'
@@ -31,7 +31,6 @@ class Member extends Controller
         $user->save();
 
         $member = new ModelsMember();
-        $member->nama = $req->nama;
         $member->tanggal_lahir = $req->tanggal_lahir;
         $member->alamat = $req->alamat;
         $member->pendidikan = $req->pendidikan;
