@@ -29,37 +29,52 @@
 
     </script>
 
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+
     <!-- CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/plugins.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/kaiadmin.min.css') }}" />
 </head>
-<body>
-    <div class="container-fluid bg-dark">
-        <div class="card position-absolute top-50 start-50 translate-middle" style="width: 400px">
-            <div class="card-header">
-                <div class="card-title">Silahkan Login</div>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('login') }}" method="post">
-                    @csrf
-                    @if ($errors->any())
-                        <div class="alert alert-danger" role="alert">
-                            Login Failed!
-                        </div>
-                    @endif
-                    <div class="form-group">
-                        <label for="email2">Username</label>
-                        <input name="username" type="text" class="form-control" placeholder="Masukkan Username" value="{{ old('username') }}"/>
+<body class="bg-dark">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Silahkan Login</div>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input name="password" type="password" class="form-control" placeholder="Password"/>
+                    <div class="card-body">
+                        <form action="{{ route('login') }}" method="post">
+                            @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger" role="alert">
+                                    Login Failed!
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="email2">Username</label>
+                                <input name="username" type="text" class="form-control" placeholder="Masukkan Username" value="{{ old('username') }}"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                Belum Punya Akun? <a href="{{ route('daftar') }}">Daftar</a>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button class="btn btn-primary form-control" type="submit">Login</button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group mt-3">
-                        <button class="btn btn-primary form-control" type="submit">Login</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

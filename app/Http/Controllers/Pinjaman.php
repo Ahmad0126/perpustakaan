@@ -28,6 +28,7 @@ class Pinjaman extends Controller
         $pinjaman->id_buku = $buku->id;
         $pinjaman->id_member = $req->id_member;
         $pinjaman->status = 'dipinjam';
+        $pinjaman->tanggal_kembali = date('Y-m-d', strtotime('+7 day', time()));
         $pinjaman->tanggal_dipinjam = date('Y-m-d');
         $pinjaman->save();
 
@@ -38,6 +39,7 @@ class Pinjaman extends Controller
         $pinjaman->id_buku = $req->id;
         $pinjaman->id_member = Auth::user()->id;
         $pinjaman->tanggal_dipinjam = date('Y-m-d');
+        $pinjaman->tanggal_kembali = date('Y-m-d', strtotime('+7 day', time()));
         $pinjaman->status = 'dipinjam';
         $pinjaman->save();
 
@@ -54,9 +56,11 @@ class Pinjaman extends Controller
             return redirect(route('pinjaman'))->withErrors('Buku Sedang tidak Dipinjam');
         }
 
-        $pinjaman->tanggal_kembali = date('Y-m-d');
-        $pinjaman->status = 'tersedia';
+        $pinjaman->status = 'dikembalikan';
         $pinjaman->save();
+
+        $buku->jumlah = $buku->jumlah - 1;
+        $buku->save();
 
         return redirect(route('pinjaman'))->with('alert', 'Berhasil Mengembalikan Buku');
     }
