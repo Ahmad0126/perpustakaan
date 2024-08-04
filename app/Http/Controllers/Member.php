@@ -49,12 +49,15 @@ class Member extends Controller
         ]);
 
         $member = ModelsMember::find($req->id);
-        $member->nama = $req->nama;
         $member->tanggal_lahir = $req->tanggal_lahir;
         $member->alamat = $req->alamat;
         $member->pendidikan = $req->pendidikan;
         $member->pekerjaan = $req->pekerjaan;
         $member->save();
+
+        $user = User::find($member->id_user);
+        $user->nama = $req->nama;
+        $user->save();
 
         return redirect(route('member'))->with('alert', 'Berhasil Mengedit Member');
     }

@@ -70,4 +70,6 @@ Route::middleware('auth')->group(function(){
     Route::post('/pinjaman/tambah', [Pinjaman::class, 'tambah'])->name('pinjaman_tambah');
     Route::post('/pinjaman/edit', [Pinjaman::class, 'edit'])->name('pinjaman_edit');
     Route::get('/pinjaman/hapus/{id}', [Pinjaman::class, 'hapus'])->name('pinjaman_hapus');
+    Route::get('/pinjaman/filter', [Pinjaman::class, 'filter'])->name('pinjaman_filter');
+    Route::get('/pinjaman/laporan', [Pinjaman::class, 'laporan'])->name('pinjaman_laporan');
 });

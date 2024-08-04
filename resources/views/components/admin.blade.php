@@ -366,6 +366,30 @@ if(count($url) == 3){ $url[3] = 'base'; }
             var modal = $(this);
             modal.find('#ulasan').html(button.data('ulasan'));
         });
+        $('#cetak').on('click', function(){
+            var modal = $('.modal-filter');
+            modal.find('form').attr('action', '{{ route("pinjaman_laporan") }}');
+        });
+    </script>
+    <script>
+        function sortTable(n) {
+            const table = document.getElementById("myTable");
+            const rows = Array.from(table.getElementsByTagName("TR")).slice(1);
+            const isNumericColumn = !isNaN(rows[0].getElementsByTagName("TD")[n].textContent.trim());
+
+            rows.sort((a, b) => {
+                const cellA = a.getElementsByTagName("TD")[n].textContent.trim();
+                const cellB = b.getElementsByTagName("TD")[n].textContent.trim();
+
+                if (isNumericColumn) {
+                    return parseFloat(cellA) - parseFloat(cellB);
+                } else {
+                    return cellA.localeCompare(cellB);
+                }
+            });
+
+            rows.forEach(row => table.querySelector("TBODY").appendChild(row));
+        }
     </script>
 </body>
 

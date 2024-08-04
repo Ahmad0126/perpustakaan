@@ -10,7 +10,7 @@ class Buku extends Controller
 {
     public function index(){
         $data['title'] = 'Daftar Buku | Perpustakaan';
-        $data['buku'] = ModelsBuku::all();
+        $data['buku'] = ModelsBuku::paginate(20);
         $data['kategori'] = Kategori::all();
         return view('buku', $data);
     }
@@ -34,7 +34,7 @@ class Buku extends Controller
         $buku->id_kategori = $req->id_kategori;
         $buku->jumlah = $req->jumlah;
         $buku->tanggal_rilis = $req->tanggal_rilis;
-        $buku->nomor_buku = $kategori->nomor_rak.'-'.str_pad($k, 4, 0, STR_PAD_LEFT);
+        $buku->nomor_buku = $kategori->nomor_rak.'-'.fake()->randomNumber(4, true);
         $buku->save();
 
         return redirect(route('buku'))->with('alert', 'Berhasil Menambahkan Buku');
