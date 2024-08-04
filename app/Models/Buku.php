@@ -13,7 +13,7 @@ class Buku extends Model
     protected $table = 'buku';
 
     public function pinjaman():HasMany{
-        return $this->hasMany(Pinjaman::class, 'id_buku');
+        return $this->hasMany(DetailPeminjaman::class, 'id_buku');
     }
     public function ulasan():HasMany{
         return $this->hasMany(Ulasan::class, 'id_buku');
@@ -25,7 +25,7 @@ class Buku extends Model
         return $this->belongsTo(Kategori::class, 'id_kategori');
     }
     public function dipinjam($id){
-        $buku = Pinjaman::where(['status' => 'dipinjam', 'id_buku' => $id])->get();
+        $buku = DetailPeminjaman::where(['status' => 'dipinjam', 'id_buku' => $id])->get();
         return count($buku);
     }
 }

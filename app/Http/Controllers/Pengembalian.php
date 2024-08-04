@@ -3,54 +3,48 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
-use App\Models\DetailPeminjaman;
 use App\Models\Member;
+use App\Models\Pinjaman;
 use Illuminate\Http\Request;
+use App\Models\DetailPeminjaman;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Pinjaman as ModelsPinjaman;
-use Illuminate\Support\Facades\DB;
 
-class Pinjaman extends Controller
+class Pengembalian extends Controller
 {
     public function index(){
-        $data['title'] = 'Daftar Pinjaman | Perpustakaan';
+        $data['title'] = 'Daftar Pengembalian | Perpustakaan';
         if(Gate::allows('member')){
-            $pinjaman = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get()->first();
-            if($pinjaman == null){ $data['buku'] = []; }else{ $data['buku'] = $pinjaman->detail; }
             $data['keranjang'] = session('buku') ?? [];
         }else{
-            $data['diproses'] = ModelsPinjaman::where('status', 'diproses')->get();
-            $data['buku'] = DetailPeminjaman::where('status', 'dipinjam')->get();
+            $data['diproses'] = Pinjaman::where('status', 'diproses')->get();
         }
         $data['member'] = Member::all();
-        return view('pinjaman', $data);
+        return view('pengembalian', $data);
     }
     public function detail($id){
-        $data['title'] = 'Detail Pinjaman | Perpustakaan';
-        $data['buku'] = ModelsPinjaman::find($id);
+        $data['title'] = 'Detail Pengembalian | Perpustakaan';
+        $data['buku'] = Pinjaman::find($id);
         return view('detail_pinjaman', $data);
     }
     public function tambah(Request $req){
-        $pinjaman = ModelsPinjaman::find($req->id);
-        $pinjaman->status = 'dipinjamkan';
-        $pinjaman->save();
-        foreach ($pinjaman->detail as $detail) {
-            $detail->status = 'dipinjam';
+        $pengembalian = Pinjaman::find($req->id);
+        $pengembalian->status = 'dikembalikan';
+        $pengembalian->save();
+        foreach ($pengembalian->detail as $detail) {
+            $detail->status = 'dikembalikan';
             $detail->tanggal_kembali = date('Y-m-d', strtotime('+7 day', time()));
             $detail->save();
         }
 
-        return redirect(route('pinjaman'))->with('alert', 'Buku Sudah Dipinjamkan');
+        return redirect(route('pengembalian'))->with('alert', 'Buku Sudah Dikembalikan');
     }
     public function proses(Request $req){
         $req->validate([
             'id_buku' => 'required',
         ]);
-        $pinjaman = new ModelsPinjaman();
-        $pinjaman->tanggal_dipinjam = date('Y-m-d');
-        $pinjaman->status = 'diproses';
-        $pinjaman->id_member = Auth::user()->member->id;
+        $pinjaman = Pinjaman::where(['id_member' => Auth::user()->member->id, 'status' => 'dipinjam']);
+        $pinjaman->status = 'dikembalikan';
         $pinjaman->save();
         foreach ($req->id_buku as $id) {
             $detail = new DetailPeminjaman();
@@ -61,9 +55,9 @@ class Pinjaman extends Controller
         }
         session()->forget('buku');
 
-        return redirect(route('pinjaman'))->with('alert', 'Buku Akan Segera Diproses');
+        return redirect(route('pengembalian'))->with('alert', 'Buku Akan Segera Diproses');
     }
-    public function pinjam(Request $req){
+    public function kembalikan(Request $req){
         if($req->nomor_buku != null){
             $req->validate([
                 'nomor_buku' => 'required|exists:buku,nomor_buku',
@@ -78,14 +72,11 @@ class Pinjaman extends Controller
             $buku = $req->id;
         }
         $buku = Buku::find($buku);
-        if(Gate::allows('belum_pinjam', $buku->id)){
-            return back()->withErrors('Buku Sudah Dipinjam');
-        }
-        if($buku->jumlah < 1){
-            return back()->withErrors('Buku Sedang tidak Tersedia');
+        if(!Gate::allows('belum_pinjam', $buku->id)){
+            return back()->withErrors('Buku Sudah Dikembalikan');
         }
         session()->push('buku', $buku);
-        $buku->jumlah = $buku->jumlah - 1;
+        $buku->jumlah = $buku->jumlah + 1;
         $buku->save();
 
         return back()->with('alert', 'Berhasil Manambahkan Buku');
@@ -97,7 +88,7 @@ class Pinjaman extends Controller
         ]);
         
         $buku = Buku::where('nomor_buku', $req->nomor_buku)->get()->first();
-        $pinjaman = ModelsPinjaman::where(['id_buku' => $buku->id, 'status' => 'dipinjam', 'id_member' => $req->id_member])->get()->first();
+        $pinjaman = Pinjaman::where(['id_buku' => $buku->id, 'status' => 'dipinjam', 'id_member' => $req->id_member])->get()->first();
         if($pinjaman == null){
             return redirect(route('pinjaman'))->withErrors('Buku Sedang tidak Dipinjam');
         }
@@ -124,7 +115,7 @@ class Pinjaman extends Controller
                 $k = array_keys($buku, $b);
             }
         }
-        $book->jumlah = $book->jumlah + 1;
+        $book->jumlah = $book->jumlah - 1;
         $book->save();
         session()->forget('buku.'.$k[0]);
         return back()->with('alert', 'Berhasil Dihapus Dari Antrean');

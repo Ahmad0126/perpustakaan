@@ -113,6 +113,12 @@ if(count($url) == 3){ $url[3] = 'base'; }
                                 <p>Pinjaman</p>
                             </a>
                         </li>
+                        <li class="nav-item @if ($url[3] == 'pengembalian') active @endif">
+                            <a href="{{ route('pengembalian') }}">
+                                <i class="fas fa-download"></i>
+                                <p>Pengembalian</p>
+                            </a>
+                        </li>
                         <li class="nav-item @if ($url[3] == 'koleksi') active @endif">
                             <a href="{{ route('koleksi') }}">
                                 <i class="fas fa-bookmark"></i>
