@@ -18,13 +18,13 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-center mb-0" id="myTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Username</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Level</th>
+                                    <th onclick="sortTable(0)" style="cursor: pointer;" scope="col">No <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)" style="cursor: pointer;" scope="col">Username <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;" scope="col">Nama <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(3)" style="cursor: pointer;" scope="col">Level <i class="fas fa-sort"></i></th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>

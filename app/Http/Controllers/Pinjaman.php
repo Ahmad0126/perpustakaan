@@ -15,7 +15,7 @@ class Pinjaman extends Controller
     public function index(){
         $data['title'] = 'Daftar Pinjaman | Perpustakaan';
         if(Gate::allows('member')){
-            $data['buku'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get();
+            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get();
         }else{
             $data['pinjaman'] = ModelsPinjaman::all();
         }
@@ -32,7 +32,6 @@ class Pinjaman extends Controller
         if($req->status != null){
             $where['status'] = $req->status;
         }
-
         $pinjaman = ModelsPinjaman::where($where);
 
         if($req->tanggal_dipinjam != null){
@@ -84,24 +83,24 @@ class Pinjaman extends Controller
         $pdf->Cell(190, 7, '', 0, 1);
         //title <th>
         $pdf->SetFont('Arial', 'B', 7);
-        $pdf->Cell(7, 6, 'No', 1, 0);
-        $pdf->Cell(20, 6, 'Nomor Buku', 1, 0);
-        $pdf->Cell(35, 6, 'Peminjam', 1, 0);
-        $pdf->Cell(60, 6, 'Judul', 1, 0);
-        $pdf->Cell(25, 6, 'Tanggal Dipinjam', 1, 0);
-        $pdf->Cell(25, 6, 'Tanggal Kembali', 1, 0);
-        $pdf->Cell(20, 6, 'Status', 1, 1);
+        $pdf->Cell(6, 5, 'No', 1, 0);
+        $pdf->Cell(20, 5, 'Nomor Buku', 1, 0);
+        $pdf->Cell(35, 5, 'Peminjam', 1, 0);
+        $pdf->Cell(60, 5, 'Judul', 1, 0);
+        $pdf->Cell(25, 5, 'Tanggal Dipinjam', 1, 0);
+        $pdf->Cell(25, 5, 'Tanggal Kembali', 1, 0);
+        $pdf->Cell(20, 5, 'Status', 1, 1);
 
         $pdf->SetFont('Arial', '', 7);
         $no = 1;
         foreach($data['pinjaman'] as $fer){
-            $pdf->Cell(7, 6, $no++ , 1, 0);
-            $pdf->Cell(20, 6, $fer->buku->nomor_buku, 1, 0);
-            $pdf->Cell(35, 6, $fer->member->user->nama, 1, 0);
-            $pdf->Cell(60, 6, $fer->buku->judul, 1, 0);
-            $pdf->Cell(25, 6, date('j F Y', strtotime($fer->tanggal_dipinjam)), 1, 0);
-            $pdf->Cell(25, 6, date('j F Y', strtotime($fer->tanggal_kembali)), 1, 0);
-            $pdf->Cell(20, 6, $fer->status, 1, 1);
+            $pdf->Cell(6, 5, $no++ , 1, 0);
+            $pdf->Cell(20, 5, $fer->buku->nomor_buku, 1, 0);
+            $pdf->Cell(35, 5, $fer->member->user->nama, 1, 0);
+            $pdf->Cell(60, 5, $fer->buku->judul, 1, 0);
+            $pdf->Cell(25, 5, date('j F Y', strtotime($fer->tanggal_dipinjam)), 1, 0);
+            $pdf->Cell(25, 5, date('j F Y', strtotime($fer->tanggal_kembali)), 1, 0);
+            $pdf->Cell(20, 5, $fer->status, 1, 1);
         }
         $pdf->Output();
         exit;

@@ -9,7 +9,7 @@ class Kategori extends Controller
 {
     public function index(){
         $data['title'] = 'Daftar Kategori | Perpustakaan';
-        $data['kategori'] = ModelsKategori::all();
+        $data['kategori'] = ModelsKategori::orderBy('id', 'DESC')->get();
         return view('kategori', $data);
     }
     public function tambah(Request $req){

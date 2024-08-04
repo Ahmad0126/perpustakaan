@@ -31,7 +31,12 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Buku Pinjaman Saya</div>
+                    <div class="card-head-row card-tools-still-right">
+                        <div class="card-title">Buku Pinjaman Saya</div>
+                        <div class="card-tools">
+                            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('pinjaman_filter') }}"><i class="fas fa-filter"></i> Filter</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <!-- Projects table -->
@@ -49,7 +54,7 @@
                         </thead>
                         <tbody>
                             @php $no = 1; @endphp
-                            @foreach ($buku as $u)
+                            @foreach ($pinjaman as $u)
                             <tr>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ $u->buku->nomor_buku }}</td>
@@ -74,8 +79,8 @@
             <h6 class="op-7 mb-2">Daftar Buku yang Pernah Dipinjam</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2"><i class="fas fa-filter"></i> Filter</a>
-            <a href="#" id="cetak" class="btn btn-primary btn-round" data-bs-target=".modal-filter" data-bs-toggle="modal" >Cetak Laporan</a>
+            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('pinjaman_filter') }}"><i class="fas fa-filter"></i> Filter</a>
+            <a href="#" class="btn btn-primary btn-round filter-btn" data-bs-target=".modal-filter" data-bs-toggle="modal" data-url="{{ route('pinjaman_laporan') }}">Cetak Laporan</a>
         </div>
     </div>
     <div class="row">
@@ -226,17 +231,21 @@
                                     <input name="tanggal_dipinjam" type="date" class="form-control" value="{{ old('tanggal_dipinjam') }}">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Peminjam</label>
-                                <div class="col-sm-10">
-                                    <select name="id_member" class="form-select mr-sm-2">
-                                        <option value="">Pilih peminjam</option>
-                                        @foreach ($member as $k)
-                                            <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
-                                        @endforeach
-                                    </select>
+                            @if (Gate::allows('member'))
+                                <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
+                            @else
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Peminjam</label>
+                                    <div class="col-sm-10">
+                                        <select name="id_member" class="form-select mr-sm-2">
+                                            <option value="">Pilih peminjam</option>
+                                            @foreach ($member as $k)
+                                                <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">

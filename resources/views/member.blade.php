@@ -20,17 +20,17 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-center mb-0" id="myTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nomor Member</th>
-                                    <th scope="col">Nama</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Tanggal Lahir</th>
-                                    <th scope="col">Alamat</th>
-                                    <th scope="col">Pendidikan</th>
-                                    <th scope="col">Pekerjaan</th>
+                                    <th onclick="sortTable(0)" style="cursor: pointer;" scope="col">No <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)" style="cursor: pointer;" scope="col">Nomor Member <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;" scope="col">Nama <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(3)" style="cursor: pointer;" scope="col">Email <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(4)" style="cursor: pointer;" scope="col">Tanggal Lahir <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(5)" style="cursor: pointer;" scope="col">Alamat <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(6)" style="cursor: pointer;" scope="col">Pendidikan <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(7)" style="cursor: pointer;" scope="col">Pekerjaan <i class="fas fa-sort"></i></th>
                                     @can('admin')
                                         <th>Aksi</th>
                                     @endcan
@@ -219,4 +219,56 @@
             </div>
         </div>
     @endcan
+    <div class="modal fade modal-filter" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Terapkan Filter</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
+                    </button>
+                </div>
+                <form action="" method="get">
+                    <div class="modal-body">
+                        <div class="basic-form">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Tanggal lahir</label>
+                                <div class="col-sm-10">
+                                    <input name="tanggal_lahir" type="date" class="form-control" placeholder="Masukkan Tanggal" value="{{ old('tanggal_lahir') }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Pendidikan</label>
+                                <div class="col-sm-10">
+                                    <select name="pendidikan" class="form-select mr-sm-2">
+                                        <option value="SD">SD</option>
+                                        <option value="SMP">SMP</option>
+                                        <option value="SMA">SMA</option>
+                                        <option value="D3">D3</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Pekerjaan</label>
+                                <div class="col-sm-10">
+                                    <select name="pekerjaan" class="form-select mr-sm-2">
+                                        <option value="">Pilih</option>
+                                        <option value="Pelajar">Pelajar</option>
+                                        <option value="Pegawai Negeri">Pegawai Negeri</option>
+                                        <option value="Karyawan Swasta">Karyawan Swasta</option>
+                                        <option value="Wirausaha">Wirausaha</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Terapkan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </x-admin>

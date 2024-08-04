@@ -89,12 +89,14 @@ if(count($url) == 3){ $url[3] = 'base'; }
                                 </a>
                             </li>
                         @endcan
+                        @can('petugas')
                         <li class="nav-item @if ($url[3] == 'member') active @endif">
                             <a href="{{ route('member') }}">
                                 <i class="fas fa-users"></i>
                                 <p>Member</p>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-item @if ($url[3] == 'buku') active @endif">
                             <a href="{{ route('buku') }}">
                                 <i class="fas fa-book"></i>
@@ -366,9 +368,9 @@ if(count($url) == 3){ $url[3] = 'base'; }
             var modal = $(this);
             modal.find('#ulasan').html(button.data('ulasan'));
         });
-        $('#cetak').on('click', function(){
+        $('.filter-btn').on('click', function(){
             var modal = $('.modal-filter');
-            modal.find('form').attr('action', '{{ route("pinjaman_laporan") }}');
+            modal.find('form').attr('action', $(this).data('url'));
         });
     </script>
     <script>

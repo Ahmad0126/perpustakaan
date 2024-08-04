@@ -6,7 +6,7 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">Daftar Kategori</div>
-                        @can('admin')
+                        @can('petugas')
                             <div class="card-tools">
                                 <div class="dropdown">
                                     <button class="btn btn-primary me-0" type="button" data-bs-toggle="modal" data-bs-target=".modal-tambah">
@@ -20,13 +20,13 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-center mb-0" id="myTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Kategori</th>
-                                    <th scope="col">Nomor Rak</th>
-                                    @can('admin')
+                                    <th onclick="sortTable(0)" style="cursor: pointer;" scope="col">No <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)" style="cursor: pointer;" scope="col">Kategori <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;" scope="col">Nomor Rak <i class="fas fa-sort"></i></th>
+                                    @can('petugas')
                                         <th>Aksi</th>
                                     @endcan
                                 </tr>
@@ -38,7 +38,7 @@
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $u->nama }}</td>
                                     <td>{{ $u->nomor_rak }}</td>
-                                    @can('admin')
+                                    @can('petugas')
                                         <td>
                                             <div class="d-none d-xl-block">
                                                 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".edit-kategori" data-id="{{ $u->id }}" data-nama="{{ $u->nama }}" data-nomor_rak="{{ $u->nomor_rak }}"><i class="fas fa-pen"></i> Edit </a>

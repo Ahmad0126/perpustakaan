@@ -11,14 +11,14 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-center mb-0" id="myTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Nomor Buku</th>
-                                    <th scope="col">Judul</th>
+                                    <th onclick="sortTable(0)" style="cursor: pointer;" scope="col">No <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(1)" style="cursor: pointer;" scope="col">Nomor Buku <i class="fas fa-sort"></i></th>
+                                    <th onclick="sortTable(2)" style="cursor: pointer;" scope="col">Judul <i class="fas fa-sort"></i></th>
                                     <th scope="col">Komentar</th>
-                                    <th scope="col">Rating</th>
+                                    <th onclick="sortTable(4)" style="cursor: pointer;" scope="col">Rating <i class="fas fa-sort"></i></th>
                                 </tr>
                             </thead>
                             <tbody>
