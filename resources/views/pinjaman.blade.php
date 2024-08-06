@@ -5,6 +5,7 @@
         <div class="col">
             <div class="card card-round">
                 <form action="{{ route('pinjaman_tambah') }}" method="post">
+                    @csrf
                     <div class="card-header">
                         <div class="card-head-row card-tools-still-right">
                             <div class="card-title">Pinjam Buku</div>
@@ -40,16 +41,16 @@
                 </div>
                 <div class="table-responsive">
                     <!-- Projects table -->
-                    <table class="table align-items-center mb-0">
+                    <table class="table align-items-center mb-0" id="myTable">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nomor Buku</th>
-                                <th scope="col">Judul</th>
-                                <th scope="col">Penulis</th>
-                                <th scope="col">Tanggal Dipinjam</th>
-                                <th scope="col">Tanggal Kembali</th>
-                                <th scope="col">Status</th>
+                                <th scope="col" onclick="sortTable(0)" style="cursor: pointer">No <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(1)" style="cursor: pointer">Nomor Buku <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(2)" style="cursor: pointer">Judul <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(3)" style="cursor: pointer">Penulis <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(4)" style="cursor: pointer">Tanggal Dipinjam <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(5)" style="cursor: pointer">Tanggal Kembali <i class="fas fa-sort"></i></th>
+                                <th scope="col" onclick="sortTable(6)" style="cursor: pointer">Status <i class="fas fa-sort"></i></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,6 +68,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $buku->links('vendor.pagination.default') }}
                 </div>
             </div>
         </div>
@@ -89,7 +91,7 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">
-                            Daftar Pinjaman Buku 
+                            Daftar Pinjaman Buku
                         </div>
                         <div class="card-tools">
                             <button class="btn btn-secondary me-0" type="button" data-bs-toggle="modal" data-bs-target=".edit-pinjaman">
@@ -131,6 +133,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $buku->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

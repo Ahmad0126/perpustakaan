@@ -15,9 +15,9 @@ class Pinjaman extends Controller
     public function index(){
         $data['title'] = 'Daftar Pinjaman | Perpustakaan';
         if(Gate::allows('member')){
-            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get();
+            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
         }else{
-            $data['pinjaman'] = ModelsPinjaman::all();
+            $data['pinjaman'] = ModelsPinjaman::orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
         }
         $data['member'] = Member::all();
         return view('pinjaman', $data);
@@ -132,7 +132,7 @@ class Pinjaman extends Controller
         ]);
         $pinjaman = new ModelsPinjaman();
         $pinjaman->id_buku = $req->id;
-        $pinjaman->id_member = Auth::user()->id;
+        $pinjaman->id_member = Auth::user()->member->id;
         $pinjaman->tanggal_dipinjam = date('Y-m-d');
         $pinjaman->tanggal_kembali = date('Y-m-d', strtotime('+7 day', time()));
         $pinjaman->status = 'dipinjam';

@@ -170,7 +170,9 @@
                                     <div class="row">{{ $u->ulasan }}</div>
                                 </td>
                                 <td>
-                                    <i class="fas fa-star"></i> {{ $u->rating }}
+                                    @for($i=1; $i <= $u->rating; $i++)
+                                    <i class="fas fa-star"></i>
+                                    @endfor
                                 </td>
                             </tr>
                             @endforeach
