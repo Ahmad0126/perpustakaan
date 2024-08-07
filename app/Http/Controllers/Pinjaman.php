@@ -42,7 +42,7 @@ class Pinjaman extends Controller
             $pinjaman->where('status', 'dipinjam');
         }
 
-        $data['pinjaman'] = $pinjaman->get();
+        $data['pinjaman'] = $pinjaman->paginate(20);
         return view('pinjaman', $data);
     }
     public function laporan(Request $req){

@@ -68,7 +68,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $buku->links('vendor.pagination.default') }}
+                    {{ $pinjaman->links('vendor.pagination.default') }}
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ $buku->links('vendor.pagination.default') }}
+                        {{ $pinjaman->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

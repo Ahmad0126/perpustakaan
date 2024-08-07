@@ -39,7 +39,7 @@ class Buku extends Model
         if($ulasan->first() != null){
             $rating = $rating / $no;
         }
-        return $rating;
+        return number_format($rating, 1);
     }
     public function jumlah_ulasan($id){
         $ulasan = Ulasan::where(['id_buku' => $id])->get();
