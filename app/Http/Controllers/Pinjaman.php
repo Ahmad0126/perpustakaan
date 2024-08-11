@@ -27,43 +27,46 @@ class Pinjaman extends Controller
         $data['title'] = 'Filter Pinjaman | Perpustakaan';
         $data['member'] = Member::all();
         $where = [];
-        if($req->id_member != null){
-            $where['id_member'] = $req->id_member;
-        }
-        if($req->status != null){
-            $where['status'] = $req->status;
-        }
-        $pinjaman = ModelsPinjaman::where($where);
 
+        $pinjaman = DetailPinjaman::where($where);
+
+        if($req->id_member != null){
+            $pinjaman->whereRelation('pinjaman', 'id_member', $req->id_member);
+        }
         if($req->tanggal_dipinjam != null){
-            $pinjaman->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
+            $pinjaman->whereRelation('pinjaman', 'tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
+        }
+
+        if($req->status != null){
+            $pinjaman->where('status', $req->status);
         }
         if($req->terlambat == 'true'){
             $pinjaman->where('tanggal_kembali', '<', date('Y-m-d'));
             $pinjaman->where('status', 'dipinjam');
         }
 
-        $data['pinjaman'] = $pinjaman->get();
+        $data['pinjaman'] = $pinjaman->paginate(20);
         return view('pinjaman', $data);
     }
     public function laporan(Request $req){
         $data['title'] = 'Laporan Peminjaman Perpustakaan';
         $data['subtitle'] = 'Buku';
         $where = [];
+        
+        $pinjaman = DetailPinjaman::where($where);
+
         if($req->id_member != null){
-            $where['id_member'] = $req->id_member;
+            $pinjaman->whereRelation('pinjaman', 'id_member', $req->id_member);
             $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang dipinjam oleh '.Member::find($req->id_member)->user->nama]);
         }
-        if($req->status != null){
-            $where['status'] = $req->status;
-            $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang '.$req->status]);
+        if($req->tanggal_dipinjam != null){
+            $pinjaman->whereRelation('pinjaman', 'tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
+            $data['subtitle'] = implode(' ', [$data['subtitle'], 'dari tanggal '.date('j F Y', strtotime($req->tanggal_dipinjam))]);
         }
 
-        $pinjaman = ModelsPinjaman::where($where);
-
-        if($req->tanggal_dipinjam != null){
-            $pinjaman->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
-            $data['subtitle'] = implode(' ', [$data['subtitle'], 'dari tanggal '.date('j F Y', strtotime($req->tanggal_dipinjam))]);
+        if($req->status != null){
+            $pinjaman->where('status', $req->status);
+            $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang '.$req->status]);
         }
         if($req->terlambat == 'true'){
             $pinjaman->where('tanggal_kembali', '<', date('Y-m-d'));
@@ -97,9 +100,9 @@ class Pinjaman extends Controller
         foreach($data['pinjaman'] as $fer){
             $pdf->Cell(6, 5, $no++ , 1, 0);
             $pdf->Cell(20, 5, $fer->buku->nomor_buku, 1, 0);
-            $pdf->Cell(35, 5, $fer->member->user->nama, 1, 0);
+            $pdf->Cell(35, 5, $fer->pinjaman->member->user->nama, 1, 0);
             $pdf->Cell(60, 5, $fer->buku->judul, 1, 0);
-            $pdf->Cell(25, 5, date('j F Y', strtotime($fer->tanggal_dipinjam)), 1, 0);
+            $pdf->Cell(25, 5, date('j F Y', strtotime($fer->pinjaman->tanggal_dipinjam)), 1, 0);
             $pdf->Cell(25, 5, date('j F Y', strtotime($fer->tanggal_kembali)), 1, 0);
             $pdf->Cell(20, 5, $fer->status, 1, 1);
         }
