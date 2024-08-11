@@ -42,8 +42,20 @@ class AppServiceProvider extends ServiceProvider
             return count($buku) == 0;
         });
         Gate::define('belum_pinjam', function(User $user, $id_buku){
-            $buku = Pinjaman::where(['id_member' => $user->member->id, 'id_buku' => $id_buku])->get();
-            return count($buku) == 0;
+            $buku = session('buku') ?? [];
+            foreach($buku as $b){
+                if($id_buku == $b->id){
+                    return false;
+                }
+            }
+            $pinjaman = Pinjaman::where('id_member', $user->member->id)->get()->first();
+            if($pinjaman == null){ $buku = []; }else{ $buku = $pinjaman->detail; }
+            foreach($buku as $b){
+                if($id_buku == $b->id && $b->status == 'dipinjam'){
+                    return false;
+                }
+            }
+            return true;
         });
     }
 }

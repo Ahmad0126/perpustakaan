@@ -18,14 +18,9 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <div class="card-title">
-                            Daftar Pinjaman Buku 
+                            Daftar Transaksi Peminjaman Buku 
                         </div>
                         <div class="card-tools">
-                            @can('petugas')
-                            <button class="btn btn-secondary me-0" type="button" data-bs-toggle="modal" data-bs-target=".edit-pinjaman">
-                                Kembalikan
-                            </button>
-                            @endcan
                             <a class="btn btn-primary me-0" href="{{ route('transaksi_tambah') }}">
                                 Tambah
                             </a>
@@ -35,83 +30,35 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0" id="myTable">
+                        <table class="table align-items-center mb-0">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(0)">No <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(1)">Nomor Buku <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(2)">Peminjam <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(3)">Judul <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(4)">Tanggal Dipinjam <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(5)">Tanggal Kembali <i class="fas fa-sort"></i></th>
-                                    <th scope="col" style="cursor: pointer" onclick="sortTable(6)">Status <i class="fas fa-sort"></i></th>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Peminjam</th>
+                                    <th scope="col">Tanggal Peminjaman</th>
+                                    <th scope="col">Total Buku</th>
+                                    <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php $no = 1; @endphp
-                                @foreach ($pinjaman as $u)
+                                @foreach ($transaksi as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $u->buku->nomor_buku }}</td>
-                                    <td>{{ $u->pinjaman->member->user->nama }}</td>
-                                    <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
-                                    <td>
-                                        <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
-                                    </td>
-                                    <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
-                                    <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
+                                    <td>{{ $u->member->user->nama }}</td>
+                                    <td>{{ date('j F Y', strtotime($u->tanggal_dipinjam)) }}</td>
+                                    <td>{{ $u->jumlah_buku($u->id) }}</td>
+                                    <td><a href="{{ route('transaksi_detail', $u->id) }}" class="btn btn-primary">Lihat</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        @can('petugas')
-                        {{ $pinjaman->links('vendor.pagination.default') }}
-                        @endcan
+                        {{ $transaksi->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @can('petugas')
-    <div class="modal fade edit-pinjaman" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Kembalikan Buku</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
-                    </button>
-                </div>
-                <form action="{{ route('pinjaman_kembalikan') }}" method="get">
-                    <div class="modal-body">
-                        <input type="hidden" name="id">
-                        <div class="basic-form">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Nomor Buku</label>
-                                <div class="col-sm-10">
-                                    <input name="nomor_buku" type="text" class="form-control" placeholder="Masukkan Nomor" value="{{ old('nomor_buku') }}">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Member</label>
-                                <div class="col-sm-10">
-                                    <select name="id_member" class="form-select mr-sm-2">
-                                        @foreach ($member as $k)
-                                            <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Kembalikan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    @endcan
     <div class="modal fade modal-filter" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -129,7 +76,7 @@
                                     <input name="tanggal_dipinjam" type="date" class="form-control" value="{{ old('tanggal_dipinjam') }}">
                                 </div>
                             </div>
-                            @if (Gate::allows('member'))
+                            {{-- @if (Gate::allows('member'))
                                 <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
                             @else
                                 <div class="form-group row">
@@ -143,7 +90,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">

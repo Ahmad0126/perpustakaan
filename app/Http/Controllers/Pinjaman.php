@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\DetailPinjaman;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,9 @@ class Pinjaman extends Controller
     public function index(){
         $data['title'] = 'Daftar Pinjaman | Perpustakaan';
         if(Gate::allows('member')){
-            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get();
+            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->orderBy('id', 'DESC')->get()->first()->detail;
         }else{
-            $data['pinjaman'] = ModelsPinjaman::all();
+            $data['pinjaman'] = DetailPinjaman::orderBy('id', 'DESC')->paginate(20);
         }
         $data['member'] = Member::all();
         return view('pinjaman', $data);
@@ -163,6 +164,30 @@ class Pinjaman extends Controller
         $buku->save();
 
         return redirect(route('pinjaman'))->with('alert', 'Berhasil Mengembalikan Buku');
+    }
+    public function kembalikan(Request $req){
+        if($req->nomor_buku != null){
+            $req->validate([
+                'nomor_buku' => 'required|exists:buku,nomor_buku',
+                'id_member' => 'required|exists:pinjaman,id_member',
+            ]);
+            $b = Buku::where('nomor_buku', $req->nomor_buku)->get()->first();
+            $pinjaman = ModelsPinjaman::where(['id_member' => $req->id_member])->get()->last();
+            $buku = DetailPinjaman::where(['id_buku' => $b->id, 'id_pinjaman' => $pinjaman->id, 'status' => 'dipinjam'])->get()->first();
+        }else{
+            $req->validate([
+                'id' => 'required|exists:detail_pinjaman,id',
+            ]);
+            $buku = DetailPinjaman::find($req->id);
+        }
+        if($buku != null){
+            $buku->status = 'dikembalikan';
+            $buku->save();
+        }else{
+            return back()->withErrors('Buku sudah dikembalikan');
+        }
+
+        return back()->with('alert', 'Berhasil Mengembalikan Buku');
     }
     public function hapus($id){
         ModelsPinjaman::destroy($id);

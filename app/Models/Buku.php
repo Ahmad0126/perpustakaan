@@ -28,4 +28,21 @@ class Buku extends Model
         $buku = Pinjaman::where(['status' => 'dipinjam', 'id_buku' => $id])->get();
         return count($buku);
     }
+    public function rating($id){
+        $ulasan = Ulasan::where(['id_buku' => $id])->get();
+        $rating = 0;
+        $no = 0;
+        foreach ($ulasan as $u) {
+            $rating = $rating += $u->rating;
+            $no++;
+        }
+        if($ulasan->first() != null){
+            $rating = $rating / $no;
+        }
+        return number_format($rating, 1);;
+    }
+    public function jumlah_ulasan($id){
+        $ulasan = Ulasan::where(['id_buku' => $id])->get();
+        return count($ulasan);
+    }
 }

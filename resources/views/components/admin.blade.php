@@ -109,6 +109,12 @@ if(count($url) == 3){ $url[3] = 'base'; }
                                 <p>Kategori</p>
                             </a>
                         </li>
+                        <li class="nav-item @if ($url[3] == 'transaksi') active @endif">
+                            <a href="{{ route('transaksi') }}">
+                                <i class="fas fa-download"></i>
+                                <p>Transaksi</p>
+                            </a>
+                        </li>
                         <li class="nav-item @if ($url[3] == 'pinjaman') active @endif">
                             <a href="{{ route('pinjaman') }}">
                                 <i class="fas fa-download"></i>

@@ -83,7 +83,7 @@
                         <div class="card-footer text-end">
                             @can('member')
                                 @if(Gate::allows('belum_pinjam', $buku->id))
-                                    <form class="d-inline-block" action="{{ route('buku_pinjam') }}" method="post">
+                                    <form class="d-inline-block" action="{{ route('transaksi_masukkan') }}" method="post">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $buku->id }}">
                                         <button type="submit" class="btn btn-secondary"><i class="fas fa-download"></i> Pinjam</button>
@@ -170,7 +170,9 @@
                                     <div class="row">{{ $u->ulasan }}</div>
                                 </td>
                                 <td>
-                                    <i class="fas fa-star"></i> {{ $u->rating }}
+                                    @for($i=1; $i <= $u->rating; $i++)
+                                    <i class="fas fa-star"></i>
+                                    @endfor
                                 </td>
                             </tr>
                             @endforeach

@@ -4,10 +4,11 @@ use App\Http\Controllers\Buku;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\User;
 use App\Http\Controllers\Member;
+use App\Http\Controllers\Ulasan;
 use App\Http\Controllers\Koleksi;
 use App\Http\Controllers\Kategori;
 use App\Http\Controllers\Pinjaman;
-use App\Http\Controllers\Ulasan;
+use App\Http\Controllers\Transaksi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,4 +80,14 @@ Route::middleware('auth')->group(function(){
     Route::post('/pinjaman/edit', [Pinjaman::class, 'edit'])->name('pinjaman_edit');
     Route::get('/pinjaman/hapus/{id}', [Pinjaman::class, 'hapus'])->name('pinjaman_hapus');
     Route::get('/pinjaman/filter', [Pinjaman::class, 'filter'])->name('pinjaman_filter');
+    Route::get('/pinjaman/kembalikan', [Pinjaman::class, 'kembalikan'])->name('pinjaman_kembalikan');
+
+    Route::get('/transaksi', [Transaksi::class, 'index'])->name('transaksi');
+    Route::get('/transaksi/tambah', [Transaksi::class, 'tambah'])->name('transaksi_tambah');
+    Route::post('/transaksi/masukkan', [Transaksi::class, 'masukkan'])->name('transaksi_masukkan');
+    Route::post('/transaksi/proses', [Transaksi::class, 'proses'])->name('transaksi_proses');
+    Route::post('/transaksi/kembalikan', [Transaksi::class, 'kembalikan'])->name('transaksi_kembalikan');
+    Route::get('/transaksi/detail/{id}', [Transaksi::class, 'detail'])->name('transaksi_detail');
+    Route::get('/keranjang/hapus/{id}', [Transaksi::class, 'batal_keranjang'])->name('keranjang_hapus');
+    Route::get('/transaksi/filter', [Transaksi::class, 'filter'])->name('transaksi_filter');
 });
