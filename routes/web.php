@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function(){
         
         Route::get('/buku/laporan', [Buku::class, 'laporan'])->name('buku_laporan');
         Route::get('/pinjaman/laporan', [Pinjaman::class, 'laporan'])->name('pinjaman_laporan');
+        Route::get('/transaksi/laporan', [Transaksi::class, 'laporan'])->name('transaksi_laporan');
     });
 
     Route::middleware('can:member')->group(function(){

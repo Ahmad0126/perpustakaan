@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Member;
 use App\Models\Pinjaman;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use App\Models\DetailPinjaman;
-use App\Models\DetailPeminjaman;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,6 +18,7 @@ class Transaksi extends Controller
         if(Gate::allows('member')){
             $data['transaksi'] = Pinjaman::where('id_member', Auth::user()->member->id)->orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
         }else{
+            $data['member'] = Member::all();
             $data['transaksi'] = Pinjaman::orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
         }
         return view('transaksi', $data);
@@ -27,6 +28,68 @@ class Transaksi extends Controller
         $data['title'] = 'Detail Pinjaman | Perpustakaan';
         $data['buku'] = Pinjaman::find($id);
         return view('transaksi_detail', $data);
+    }
+    public function filter(Request $req){
+        $data['title'] = 'Filter Transaksi | Perpustakaan';
+        $data['member'] = Member::all();
+        $where = [];
+
+        $transaksi = Pinjaman::where($where);
+
+        if($req->id_member != null){
+            $transaksi->where('id_member', $req->id_member);
+        }
+        if($req->tanggal_dipinjam != null){
+            $transaksi->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
+        }
+
+        $data['transaksi'] = $transaksi->paginate(20);
+        return view('transaksi', $data);
+    }
+    public function laporan(Request $req){
+        $data['title'] = 'Laporan Transaksi Perpustakaan';
+        $data['subtitle'] = 'Transaksi';
+        $where = [];
+        
+        $transaksi = Pinjaman::where($where);
+
+        if($req->id_member != null){
+            $transaksi->where('id_member', $req->id_member);
+            $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang dilakukan oleh '.Member::find($req->id_member)->user->nama]);
+        }
+        if($req->tanggal_dipinjam != null){
+            $transaksi->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
+            $data['subtitle'] = implode(' ', [$data['subtitle'], 'dari tanggal '.date('j F Y', strtotime($req->tanggal_dipinjam))]);
+        }
+
+        $data['transaksi'] = $transaksi->paginate(20);
+
+        $pdf = new Fpdf();
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(190, 7, $data['title'], 0, 1, 'C');
+        if($data['subtitle'] != 'Buku'){
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(190, 7, $data['subtitle'], 0, 1, 'C');
+        }
+        $pdf->Cell(190, 7, '', 0, 1);
+        //title <th>
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(7, 6, 'No', 1, 0);
+        $pdf->Cell(110, 6, 'Peminjam', 1, 0);
+        $pdf->Cell(40, 6, 'Tanggal Dipinjam', 1, 0);
+        $pdf->Cell(30, 6, 'Jumlah Buku', 1, 1);
+
+        $pdf->SetFont('Arial', '', 10);
+        $no = 1;
+        foreach($data['transaksi'] as $fer){
+            $pdf->Cell(7, 6, $no++ , 1, 0);
+            $pdf->Cell(110, 6, $fer->member->user->nama, 1, 0);
+            $pdf->Cell(40, 6, date('j F Y', strtotime($fer->tanggal_dipinjam)), 1, 0);
+            $pdf->Cell(30, 6, $fer->jumlah_buku($fer->id), 1, 1);
+        }
+        $pdf->Output();
+        exit;
     }
     public function tambah(){
         $data['title'] = 'Tambahkan Pinjaman | Perpustakaan';

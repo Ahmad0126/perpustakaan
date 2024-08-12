@@ -2,13 +2,13 @@
     <x-slot:title>{{ $title }}</x-slot:title>
     <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
         <div>
-            <h3 class="fw-bold mb-3">Menu Pinjaman</h3>
-            <h6 class="op-7 mb-2">Daftar Buku yang Pernah Dipinjam</h6>
+            <h3 class="fw-bold mb-3">Menu Transaksi</h3>
+            <h6 class="op-7 mb-2">Daftar Semua Transaksi Peminjaman Buku</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('pinjaman_filter') }}"><i class="fas fa-filter"></i> Filter</a>
+            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('transaksi_filter') }}"><i class="fas fa-filter"></i> Filter</a>
             @can('petugas')
-            <a href="#" class="btn btn-primary btn-round filter-btn" data-bs-target=".modal-filter" data-bs-toggle="modal" data-url="{{ route('pinjaman_laporan') }}">Cetak Laporan</a>
+            <a href="#" class="btn btn-primary btn-round filter-btn" data-bs-target=".modal-filter" data-bs-toggle="modal" data-url="{{ route('transaksi_laporan') }}">Cetak Laporan</a>
             @endcan
         </div>
     </div>
@@ -67,7 +67,7 @@
                     <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
                     </button>
                 </div>
-                <form action="{{ route('pinjaman_filter') }}" method="get">
+                <form action="{{ route('transaksi_filter') }}" method="get">
                     <div class="modal-body">
                         <div class="basic-form">
                             <div class="form-group row">
@@ -76,7 +76,7 @@
                                     <input name="tanggal_dipinjam" type="date" class="form-control" value="{{ old('tanggal_dipinjam') }}">
                                 </div>
                             </div>
-                            {{-- @if (Gate::allows('member'))
+                            @if (Gate::allows('member'))
                                 <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
                             @else
                                 <div class="form-group row">
@@ -90,21 +90,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif --}}
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Status</label>
-                                <div class="col-sm-10">
-                                    <select name="status" class="form-select mr-sm-2">
-                                        <option value="">Pilih status</option>
-                                        <option value="dipinjam">Dipinjam</option>
-                                        <option value="dikembalikan">Dikembalikan</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="terlambat">Terlambat</label>
-                                <input type="checkbox" name="terlambat" id="terlambat" value="true">
-                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="modal-footer">

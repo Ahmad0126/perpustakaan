@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Buku;
+use App\Models\Member;
 use App\Models\Pinjaman;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -20,13 +21,11 @@ class PinjamanFactory extends Factory
      */
     public function definition(): array
     {
-        $buku = Buku::inRandomOrder()->first();
-        $tanggal = fake()->dateTimeBetween('-2 years');
+        $member = Member::inRandomOrder()->first();
         return [
-            'id_buku' => $buku->id,
-            'tanggal_kembali' => date('Y-m-d', strtotime('+7 day', $tanggal->getTimestamp())),
-            'tanggal_dipinjam' => $tanggal->format('Y-m-d'),
+            'id_member' => $member->id,
             'status' => Arr::random(['dipinjam', 'dikembalikan']),
+            'tanggal_dipinjam' => fake()->dateTimeBetween('-2 years')->format('Y-m-d')
         ];
     }
 }
