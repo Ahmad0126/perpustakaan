@@ -48,20 +48,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
-                                @foreach ($pinjaman as $u)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $u->buku->nomor_buku }}</td>
-                                    <td>{{ $u->pinjaman->member->user->nama }}</td>
-                                    <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
-                                    <td>
-                                        <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
-                                    </td>
-                                    <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
-                                    <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
-                                </tr>
-                                @endforeach
+                                @can('petugas')
+                                    @php $no = $pinjaman->firstItem(); @endphp
+                                    @foreach ($pinjaman as $u)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $u->buku->nomor_buku }}</td>
+                                        <td>{{ $u->pinjaman->member->user->nama }}</td>
+                                        <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
+                                        <td>
+                                            <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
+                                        </td>
+                                        <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                                        <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
+                                    </tr>
+                                    @endforeach
+                                @endcan
+                                @can('member')
+                                    @php $no = 1; @endphp
+                                    @foreach($pinjaman as $p)
+                                        @foreach ($p->detail as $u)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $u->buku->nomor_buku }}</td>
+                                            <td>{{ $u->pinjaman->member->user->nama }}</td>
+                                            <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
+                                            <td>
+                                                <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
+                                            </td>
+                                            <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                                            <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
+                                        </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endcan
                             </tbody>
                         </table>
                         @can('petugas')

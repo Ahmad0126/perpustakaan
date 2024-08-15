@@ -37,7 +37,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $member->firstItem(); @endphp
                                 @foreach ($member as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
@@ -69,6 +69,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $member->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

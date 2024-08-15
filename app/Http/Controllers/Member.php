@@ -11,7 +11,7 @@ class Member extends Controller
 {
     public function index(){
         $data['title'] = 'Daftar Member | Perpustakaan';
-        $data['member'] = ModelsMember::all();
+        $data['member'] = ModelsMember::orderBy('id', 'DESC')->paginate(20);
         return view('member', $data);
     }
     public function tambah(Request $req){

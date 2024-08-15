@@ -30,18 +30,18 @@
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center mb-0">
+                        <table class="table align-items-center mb-0" class="myTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col">Peminjam</th>
-                                    <th scope="col">Tanggal Peminjaman</th>
-                                    <th scope="col">Total Buku</th>
+                                    <th scope="col" style="cursor: pointer;" onclick="sortTable(0)">No <i class="fas fa-sort"></i></th>
+                                    <th scope="col" style="cursor: pointer;" onclick="sortTable(1)">Peminjam <i class="fas fa-sort"></i></th>
+                                    <th scope="col" style="cursor: pointer;" onclick="sortTable(2)">Tanggal Peminjaman <i class="fas fa-sort"></i></th>
+                                    <th scope="col" style="cursor: pointer;" onclick="sortTable(3)">Total Buku <i class="fas fa-sort"></i></th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $transaksi->firstItem(); @endphp
                                 @foreach ($transaksi as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>

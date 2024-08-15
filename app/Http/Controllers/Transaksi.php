@@ -43,7 +43,7 @@ class Transaksi extends Controller
             $transaksi->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);
         }
 
-        $data['transaksi'] = $transaksi->paginate(20);
+        $data['transaksi'] = $transaksi->orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
         return view('transaksi', $data);
     }
     public function laporan(Request $req){
@@ -62,7 +62,7 @@ class Transaksi extends Controller
             $data['subtitle'] = implode(' ', [$data['subtitle'], 'dari tanggal '.date('j F Y', strtotime($req->tanggal_dipinjam))]);
         }
 
-        $data['transaksi'] = $transaksi->paginate(20);
+        $data['transaksi'] = $transaksi->orderBy('tanggal_dipinjam', 'DESC')->get();
 
         $pdf = new Fpdf();
         $pdf->AddPage();

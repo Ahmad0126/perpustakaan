@@ -100,13 +100,13 @@ if(count($url) == 3){ $url[3] = 'base'; }
                         <li class="nav-item @if ($url[3] == 'buku') active @endif">
                             <a href="{{ route('buku') }}">
                                 <i class="fas fa-book"></i>
-                                <p>Buku</p>
+                                <p>@can('member') Info @endcan Buku</p>
                             </a>
                         </li>
                         <li class="nav-item @if ($url[3] == 'kategori') active @endif">
                             <a href="{{ route('kategori') }}">
                                 <i class="fas fa-table"></i>
-                                <p>Kategori</p>
+                                <p>@can('member') Info @endcan Kategori</p>
                             </a>
                         </li>
                         <li class="nav-item @if ($url[3] == 'transaksi') active @endif">

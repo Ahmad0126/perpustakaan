@@ -12,7 +12,7 @@ class Koleksi extends Controller
 {
     public function index(){
         $data['title'] = 'Daftar Koleksi | Perpustakaan';
-        $data['koleksi'] = User::find(Auth::user()->id)->koleksi;
+        $data['koleksi'] = ModelsKoleksi::where('id_user', Auth::user()->id)->orderBy('id', 'DESC')->paginate(20);
         return view('koleksi', $data);
     }
     public function tambah(Request $req){

@@ -49,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $buku->firstItem(); @endphp
                                 @foreach ($buku as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>

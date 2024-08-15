@@ -16,7 +16,7 @@ class Pinjaman extends Controller
     public function index(){
         $data['title'] = 'Daftar Pinjaman | Perpustakaan';
         if(Gate::allows('member')){
-            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->orderBy('id', 'DESC')->get()->first()->detail;
+            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->get();
         }else{
             $data['pinjaman'] = DetailPinjaman::orderBy('id', 'DESC')->paginate(20);
         }
@@ -45,7 +45,7 @@ class Pinjaman extends Controller
             $pinjaman->where('status', 'dipinjam');
         }
 
-        $data['pinjaman'] = $pinjaman->paginate(20);
+        $data['pinjaman'] = $pinjaman->orderBy('id', 'DESC')->paginate(20);
         return view('pinjaman', $data);
     }
     public function laporan(Request $req){
@@ -74,7 +74,7 @@ class Pinjaman extends Controller
             $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang terlambat dikembalikan']);
         }
 
-        $data['pinjaman'] = $pinjaman->get();
+        $data['pinjaman'] = $pinjaman->orderBy('id', 'DESC')->get();
 
         $pdf = new Fpdf();
         $pdf->AddPage();

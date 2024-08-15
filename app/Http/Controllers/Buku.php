@@ -29,7 +29,7 @@ class Buku extends Controller
             $buku->where('tanggal_rilis', '>=', $req->tanggal_rilis);
         }
 
-        $data['buku'] = $buku->paginate(20);
+        $data['buku'] = $buku->orderBy('tanggal_rilis', 'DESC')->paginate(20);
         return view('buku', $data);
     }
     public function laporan(Request $req){
@@ -48,7 +48,7 @@ class Buku extends Controller
             $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang rilis dari tanggal '.date('j F Y', strtotime($req->tanggal_rilis))]);
         }
 
-        $data['buku'] = $buku->get();
+        $data['buku'] = $buku->orderBy('tanggal_rilis', 'DESC')->get();
 
         $pdf = new Fpdf('L');
         $pdf->AddPage();

@@ -10,7 +10,7 @@ class User extends Controller
 {
     public function index(){
         $data['title'] = 'Daftar User | Perpustakaan';
-        $data['user'] = ModelsUser::all();
+        $data['user'] = ModelsUser::orderBy('id', 'DESC')->paginate(20);
         return view('user', $data);
     }
     public function tambah(Request $req){
