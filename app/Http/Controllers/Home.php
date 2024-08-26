@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\DetailPinjaman;
 use App\Models\Koleksi;
 use App\Models\Member;
 use App\Models\Pinjaman;
@@ -21,14 +22,14 @@ class Home extends Controller
             $data += [
                 'jml_buku'=> Buku::all()->count(),
                 'jml_member' => Member::all()->count(),
-                'jml_dipinjam' => Pinjaman::where('status', 'dipinjam')->count(),
-                'jml_kembali' => Pinjaman::where('status', 'dikembalikan')->count(),
+                'jml_dipinjam' => DetailPinjaman::where('status', 'dipinjam')->count(),
+                'jml_kembali' => DetailPinjaman::where('status', 'dikembalikan')->count(),
             ];
         }else{
             $data += [
                 'jml_pinjam'=> Pinjaman::where('id_member', Auth::user()->member->id)->count(),
                 'jml_koleksi' => Koleksi::where('id_user', Auth::user()->id)->count(),
-                'jml_pinjam_pbulan' => Pinjaman::where('status', 'dipinjam')->where('tanggal_dipinjam', '>=', date('Y-m-d', strtotime('-1 month')))->count(),
+                'jml_pinjam_pbulan' => Pinjaman::where('tanggal_dipinjam', '>=', date('Y-m-d', strtotime('-1 month')))->count(),
                 'jml_ulasan' => Ulasan::where('id_user', Auth::user()->id)->count(),
             ];
         }

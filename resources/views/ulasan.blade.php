@@ -22,7 +22,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $ulasan->firstItem(); @endphp
                                 @foreach ($ulasan as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
@@ -33,11 +33,16 @@
                                             <i class="fas fa-eye"></i> Lihat
                                         </a>
                                     </td>
-                                    <td><i class="fas fa-star"></i> {{ $u->rating }}</td>
+                                    <td>
+                                        @for($i=1; $i <= $u->rating; $i++)
+                                            <i class="fas fa-star"></i>
+                                        @endfor
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $ulasan->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

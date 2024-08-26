@@ -29,7 +29,7 @@ class Buku extends Controller
             $buku->where('tanggal_rilis', '>=', $req->tanggal_rilis);
         }
 
-        $data['buku'] = $buku->paginate(20);
+        $data['buku'] = $buku->orderBy('tanggal_rilis', 'DESC')->paginate(20);
         return view('buku', $data);
     }
     public function laporan(Request $req){
@@ -48,7 +48,7 @@ class Buku extends Controller
             $data['subtitle'] = implode(' ', [$data['subtitle'], 'yang rilis dari tanggal '.date('j F Y', strtotime($req->tanggal_rilis))]);
         }
 
-        $data['buku'] = $buku->get();
+        $data['buku'] = $buku->orderBy('tanggal_rilis', 'DESC')->get();
 
         $pdf = new Fpdf('L');
         $pdf->AddPage();
@@ -60,27 +60,27 @@ class Buku extends Controller
         }
         $pdf->Cell(190, 7, '', 0, 1);
         //title <th>
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(10, 7, 'No', 1, 0);
-        $pdf->Cell(25, 7, 'Nomor Buku', 1, 0);
-        $pdf->Cell(70, 7, 'Judul', 1, 0);
-        $pdf->Cell(45, 7, 'Penulis', 1, 0);
-        $pdf->Cell(45, 7, 'Penerbit', 1, 0);
-        $pdf->Cell(35, 7, 'Tanggal Rilis', 1, 0);
-        $pdf->Cell(30, 7, 'Kategori', 1, 0);
-        $pdf->Cell(15, 7, 'Jumlah', 1, 1);
+        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->Cell(10, 5, 'No', 1, 0);
+        $pdf->Cell(20, 5, 'Nomor Buku', 1, 0);
+        $pdf->Cell(75, 5, 'Judul', 1, 0);
+        $pdf->Cell(55, 5, 'Penulis', 1, 0);
+        $pdf->Cell(55, 5, 'Penerbit', 1, 0);
+        $pdf->Cell(35, 5, 'Tanggal Rilis', 1, 0);
+        $pdf->Cell(15, 5, 'Kategori', 1, 0);
+        $pdf->Cell(11, 5, 'Jumlah', 1, 1);
 
-        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetFont('Arial', '', 7);
         $no = 1;
         foreach($data['buku'] as $fer){
-            $pdf->Cell(10, 7, $no++ , 1, 0);
-            $pdf->Cell(25, 7, $fer->nomor_buku, 1, 0);
-            $pdf->Cell(70, 7, $fer->judul, 1, 0);
-            $pdf->Cell(45, 7, $fer->penulis, 1, 0);
-            $pdf->Cell(45, 7, $fer->penerbit, 1, 0);
-            $pdf->Cell(35, 7, date('j F Y', strtotime($fer->tanggal_rilis)), 1, 0);
-            $pdf->Cell(30, 7, $fer->kategori->nama, 1, 0);
-            $pdf->Cell(15, 7, $fer->jumlah, 1, 1);
+            $pdf->Cell(10, 5, $no++ , 1, 0);
+            $pdf->Cell(20, 5, $fer->nomor_buku, 1, 0);
+            $pdf->Cell(75, 5, $fer->judul, 1, 0);
+            $pdf->Cell(55, 5, $fer->penulis, 1, 0);
+            $pdf->Cell(55, 5, $fer->penerbit, 1, 0);
+            $pdf->Cell(35, 5, date('j F Y', strtotime($fer->tanggal_rilis)), 1, 0);
+            $pdf->Cell(15, 5, $fer->kategori->nama, 1, 0);
+            $pdf->Cell(11, 5, $fer->jumlah, 1, 1);
         }
         $pdf->Output();
         exit;

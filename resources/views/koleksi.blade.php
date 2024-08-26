@@ -23,7 +23,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $koleksi->firstItem(); @endphp
                                 @foreach ($koleksi as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
@@ -38,6 +38,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $koleksi->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

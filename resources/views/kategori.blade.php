@@ -32,7 +32,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @php $no = 1; @endphp
+                                @php $no = $kategori->firstItem(); @endphp
                                 @foreach ($kategori as $u)
                                 <tr>
                                     <td>{{ $no++ }}</td>
@@ -61,6 +61,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $kategori->links('vendor.pagination.default') }}
                     </div>
                 </div>
             </div>

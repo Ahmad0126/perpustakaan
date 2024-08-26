@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class Ulasan extends Controller
 {
     public function index(){
-        $data['ulasan'] = User::find(Auth::user()->id)->ulasan;
+        $data['ulasan'] = ModelsUlasan::where('id_user', Auth::user()->id)->orderBy('id', 'DESC')->paginate(20);
         $data['title'] = "Ulasan Anda | Perpustakaan";
         return view('ulasan', $data);
     }

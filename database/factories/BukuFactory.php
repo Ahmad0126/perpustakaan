@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Buku;
+use App\Models\Kategori;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
 
@@ -19,11 +20,13 @@ class BukuFactory extends Factory
     protected $model = Buku::class;
     public function definition(): array
     {
+        $kategori = Kategori::inRandomOrder()->first();
         return [
             'judul' => fake()->realText(40),
             'penulis' => fake()->name(),
+            'id_kategori' => $kategori->id,
             'penerbit' => fake()->company(),
-            'nomor_buku' => Arr::random([800, 500, 100]).'-'.fake()->randomNumber(4, true),
+            'nomor_buku' => $kategori->nomor_rak.'-'.fake()->randomNumber(4, true),
             'jumlah' => fake()->randomDigitNotNull(),
             'tanggal_rilis' => fake()->dateTimeBetween('-2 years')->format('Y-m-d'),
         ];
