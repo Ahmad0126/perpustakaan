@@ -3,6 +3,7 @@
 use App\Http\Controllers\Buku;
 use App\Http\Controllers\Home;
 use App\Http\Controllers\User;
+use App\Http\Controllers\Denda;
 use App\Http\Controllers\Member;
 use App\Http\Controllers\Ulasan;
 use App\Http\Controllers\Koleksi;
@@ -82,6 +83,13 @@ Route::middleware('auth')->group(function(){
     Route::get('/pinjaman/hapus/{id}', [Pinjaman::class, 'hapus'])->name('pinjaman_hapus');
     Route::get('/pinjaman/filter', [Pinjaman::class, 'filter'])->name('pinjaman_filter');
     Route::get('/pinjaman/kembalikan', [Pinjaman::class, 'kembalikan'])->name('pinjaman_kembalikan');
+    
+    Route::get('/denda', [Denda::class, 'index'])->name('denda');
+    Route::post('/denda/tambah', [Denda::class, 'tambah'])->name('denda_tambah');
+    Route::post('/denda/edit', [Denda::class, 'edit'])->name('denda_edit');
+    Route::get('/denda/hapus/{id}', [Denda::class, 'hapus'])->name('denda_hapus');
+    Route::get('/denda/filter', [Denda::class, 'filter'])->name('denda_filter');
+    Route::post('/denda/bayar', [Denda::class, 'bayar'])->name('denda_bayar');
 
     Route::get('/transaksi', [Transaksi::class, 'index'])->name('transaksi');
     Route::get('/transaksi/tambah', [Transaksi::class, 'tambah'])->name('transaksi_tambah');

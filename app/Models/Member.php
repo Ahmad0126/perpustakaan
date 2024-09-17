@@ -22,4 +22,7 @@ class Member extends Model
     public function user():BelongsTo{
         return $this->belongsTo(User::class, 'id_user');
     }
+    public function denda():HasMany{
+        return $this->hasMany(Denda::class, 'id_member');
+    }
 }

@@ -121,6 +121,12 @@ if(count($url) == 3){ $url[3] = 'base'; }
                                 <p>Pinjaman</p>
                             </a>
                         </li>
+                        <li class="nav-item @if ($url[3] == 'denda') active @endif">
+                            <a href="{{ route('denda') }}">
+                                <i class="fas fa-coins"></i>
+                                <p>Denda</p>
+                            </a>
+                        </li>
                         <li class="nav-item @if ($url[3] == 'koleksi') active @endif">
                             <a href="{{ route('koleksi') }}">
                                 <i class="fas fa-bookmark"></i>
@@ -317,6 +323,14 @@ if(count($url) == 3){ $url[3] = 'base'; }
             modal.find('input[name="nama"]').val(nama);
             modal.find('input[name="nomor_rak"]').val(nomor_rak);
         });
+        $('.edit-denda').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var nominal = button.data('nominal');
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
+            modal.find('input[name="nominal"]').val(nominal);
+        });
         $('.edit-member').on('show.bs.modal', function(event){
             var button = $(event.relatedTarget);
             var modal = $(this);
@@ -377,6 +391,12 @@ if(count($url) == 3){ $url[3] = 'base'; }
         $('.filter-btn').on('click', function(){
             var modal = $('.modal-filter');
             modal.find('form').attr('action', $(this).data('url'));
+        });
+        $('.modal-bayar').on('show.bs.modal', function(event){
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+            var modal = $(this);
+            modal.find('input[name="id"]').val(id);
         });
     </script>
     <script>
