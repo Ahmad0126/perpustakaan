@@ -27,7 +27,7 @@ class DetailPinjamanFactory extends Factory
             'id_buku' => $buku->id,
             'status' => Arr::random(['dipinjam', 'dikembalikan']),
             'id_pinjaman' => $pinjaman->id,
-            'tanggal_kembali' => date('Y-m-d', strtotime($pinjaman->tanggal_dipinjam, strtotime('+2 week')))
+            'tanggal_kembali' => date('Y-m-d', strtotime('+2 week', strtotime($pinjaman->tanggal_dipinjam)))
         ];
     }
 }

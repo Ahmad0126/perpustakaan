@@ -18,8 +18,11 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(Buku::class);
-        $this->call(Member::class);
-        $this->call(Pinjaman::class);
+        // $this->call(Buku::class);
+        // $this->call(Member::class);
+        // $this->call(Pinjaman::class);
+        // \App\Models\Denda::factory(5)->create();
+        \App\Models\Koleksi::factory(30)->create();
+        \App\Models\Ulasan::factory(50)->create();
     }
 }

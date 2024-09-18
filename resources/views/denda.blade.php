@@ -6,9 +6,9 @@
             <h6 class="op-7 mb-2">Daftar Denda Pengembalian Buku</h6>
         </div>
         <div class="ms-md-auto py-2 py-md-0">
-            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('transaksi_filter') }}"><i class="fas fa-filter"></i> Filter</a>
+            <a href="#" data-bs-target=".modal-filter" data-bs-toggle="modal" class="btn btn-label-info btn-round me-2 filter-btn"  data-url="{{ route('denda_filter') }}"><i class="fas fa-filter"></i> Filter</a>
             @can('petugas')
-            <a href="#" class="btn btn-primary btn-round filter-btn" data-bs-target=".modal-filter" data-bs-toggle="modal" data-url="{{ route('transaksi_laporan') }}">Cetak Laporan</a>
+            <a href="#" class="btn btn-primary btn-round filter-btn" data-bs-target=".modal-filter" data-bs-toggle="modal" data-url="{{ route('denda_laporan') }}">Cetak Laporan</a>
             @endcan
         </div>
     </div>
@@ -108,23 +108,23 @@
                     <button type="button" class="close" data-bs-dismiss="modal"><span>×</span>
                     </button>
                 </div>
-                <form action="{{ route('transaksi_filter') }}" method="get">
+                <form action="{{ route('denda_filter') }}" method="get">
                     <div class="modal-body">
                         <div class="basic-form">
                             <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Dipinjam Dari Tanggal</label>
+                                <label class="col-sm-3 col-form-label">Dibuat Dari Tanggal</label>
                                 <div class="col-sm-9">
-                                    <input name="tanggal_dipinjam" type="date" class="form-control" value="{{ old('tanggal_dipinjam') }}">
+                                    <input name="tanggal_dibuat" type="date" class="form-control" value="{{ old('tanggal_dibuat') }}">
                                 </div>
                             </div>
                             @if (Gate::allows('member'))
                                 <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
                             @else
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">Peminjam</label>
+                                    <label class="col-sm-2 col-form-label">Member</label>
                                     <div class="col-sm-10">
                                         <select name="id_member" class="form-select mr-sm-2">
-                                            <option value="">Pilih peminjam</option>
+                                            <option value="">Pilih member</option>
                                             @foreach ($member as $k)
                                                 <option value="{{ $k->id }}">{{ $k->user->nama }}</option>
                                             @endforeach
@@ -132,6 +132,29 @@
                                     </div>
                                 </div>
                             @endif
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-sm-10">
+                                    <select name="status" class="form-select mr-sm-2">
+                                        <option value="">Pilih status</option>
+                                        <option value="dibayar">dibayar</option>
+                                        <option value="belum dibayar">belum dibayar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">Nominal</label>
+                                <div class="col-sm-3">
+                                    <select name="pembanding" class="form-select mr-sm-2">
+                                        <option value="sama">sama dengan</option>
+                                        <option value="lebih">lebih dari</option>
+                                        <option value="kurang">kurang dari</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="number" name="nominal" class="form-control">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
