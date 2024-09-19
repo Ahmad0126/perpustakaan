@@ -73,12 +73,16 @@ class Denda extends Controller
     public function filter(Request $req){
         $data['title'] = 'Filter Denda | Perpustakaan';
         $data['member'] = Member::all();
-        $where = [];
+        $id_member = $req->id_member;
 
-        $denda = ModelsDenda::where($where);
+        if(Gate::allows('member')){
+            $id_member = Auth::user()->member->id;
+        }
 
-        if($req->id_member != null){
-            $denda->where('id_member', $req->id_member);
+        $denda = ModelsDenda::where([]);
+
+        if($id_member != null){
+            $denda->where('id_member', $id_member);
         }
         if($req->tanggal_dipinjam != null){
             $denda->where('tanggal_dibuat', '>=', $req->tanggal_dibuat);

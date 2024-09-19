@@ -117,9 +117,7 @@
                                     <input name="tanggal_dibuat" type="date" class="form-control" value="{{ old('tanggal_dibuat') }}">
                                 </div>
                             </div>
-                            @if (Gate::allows('member'))
-                                <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
-                            @else
+                            @can('petugas')
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Member</label>
                                     <div class="col-sm-10">
@@ -131,7 +129,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif
+                            @endcan
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">

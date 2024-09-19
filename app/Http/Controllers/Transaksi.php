@@ -32,12 +32,16 @@ class Transaksi extends Controller
     public function filter(Request $req){
         $data['title'] = 'Filter Transaksi | Perpustakaan';
         $data['member'] = Member::all();
-        $where = [];
+        $id_member = $req->id_member;
 
-        $transaksi = Pinjaman::where($where);
+        if(Gate::allows('member')){
+            $id_member = Auth::user()->member->id;
+        }
 
-        if($req->id_member != null){
-            $transaksi->where('id_member', $req->id_member);
+        $transaksi = Pinjaman::where([]);
+
+        if($id_member != null){
+            $transaksi->where('id_member', $id_member);
         }
         if($req->tanggal_dipinjam != null){
             $transaksi->where('tanggal_dipinjam', '>=', $req->tanggal_dipinjam);

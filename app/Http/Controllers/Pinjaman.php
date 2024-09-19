@@ -16,7 +16,7 @@ class Pinjaman extends Controller
     public function index(){
         $data['title'] = 'Daftar Pinjaman | Perpustakaan';
         if(Gate::allows('member')){
-            $data['pinjaman'] = ModelsPinjaman::where('id_member', Auth::user()->member->id)->orderBy('tanggal_dipinjam', 'DESC')->paginate(20);
+            $data['pinjaman'] = DetailPinjaman::whereRelation('pinjaman', 'id_member', Auth::user()->member->id)->orderBy('id', 'DESC')->paginate(20);
         }else{
             $data['pinjaman'] = DetailPinjaman::orderBy('id', 'DESC')->paginate(20);
         }
@@ -27,11 +27,16 @@ class Pinjaman extends Controller
         $data['title'] = 'Filter Pinjaman | Perpustakaan';
         $data['member'] = Member::all();
         $where = [];
+        $id_member = $req->id_member;
+
+        if(Gate::allows('member')){
+            $id_member = Auth::user()->member->id;
+        }
 
         $pinjaman = DetailPinjaman::where($where);
 
-        if($req->id_member != null){
-            $pinjaman->whereRelation('pinjaman', 'id_member', $req->id_member);
+        if($id_member != null){
+            $pinjaman->whereRelation('pinjaman', 'id_member', $id_member);
         }
         if($req->tanggal_dipinjam != null){
             $pinjaman->whereRelation('pinjaman', 'tanggal_dipinjam', '>=', $req->tanggal_dipinjam);

@@ -48,40 +48,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @can('petugas')
-                                    @php $no = $pinjaman->firstItem(); @endphp
-                                    @foreach ($pinjaman as $u)
-                                    <tr>
-                                        <td>{{ $no++ }}</td>
-                                        <td>{{ $u->buku->nomor_buku }}</td>
-                                        <td>{{ $u->pinjaman->member->user->nama }}</td>
-                                        <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
-                                        <td>
-                                            <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
-                                        </td>
-                                        <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
-                                        <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
-                                    </tr>
-                                    @endforeach
-                                @endcan
-                                @can('member')
-                                    @php $no = 1; @endphp
-                                    @foreach($pinjaman as $p)
-                                        @foreach ($p->detail as $u)
-                                        <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ $u->buku->nomor_buku }}</td>
-                                            <td>{{ $u->pinjaman->member->user->nama }}</td>
-                                            <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
-                                            <td>
-                                                <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
-                                            </td>
-                                            <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
-                                            <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
-                                        </tr>
-                                        @endforeach
-                                    @endforeach
-                                @endcan
+                                @php $no = $pinjaman->firstItem(); @endphp
+                                @foreach ($pinjaman as $u)
+                                <tr>
+                                    <td>{{ $no++ }}</td>
+                                    <td>{{ $u->buku->nomor_buku }}</td>
+                                    <td>{{ $u->pinjaman->member->user->nama }}</td>
+                                    <td><a href="{{ route('buku_detail', $u->buku->nomor_buku) }}">{{ $u->buku->judul }}</a></td>
+                                    <td>
+                                        <a href="{{ route('transaksi_detail', $u->pinjaman->id) }}"> {{ date('j F Y', strtotime($u->pinjaman->tanggal_dipinjam)) }}</a>
+                                    </td>
+                                    <td>{{ $u->tanggal_kembali != null ? date('j F Y', strtotime($u->tanggal_kembali)) : '-' }}</td>
+                                    <td><span class="badge @if($u->status == 'dipinjam') text-bg-warning @else text-bg-success @endif">{{ $u->status }}</span></td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         @can('petugas')
@@ -149,9 +129,7 @@
                                     <input name="tanggal_dipinjam" type="date" class="form-control" value="{{ old('tanggal_dipinjam') }}">
                                 </div>
                             </div>
-                            @if (Gate::allows('member'))
-                                <input type="hidden" name="id_member" value="{{ Auth::user()->member->id }}">
-                            @else
+                            @can('petugas')
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Peminjam</label>
                                     <div class="col-sm-10">
@@ -163,7 +141,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            @endif
+                            @endcan
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">
